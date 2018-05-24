@@ -14,6 +14,12 @@ public class Main extends Application {
         primaryStage.setTitle("Hello World");
         primaryStage.setScene(new Scene(root, 600, 400));
         primaryStage.show();
+        Parent studentView = FXMLLoader.load(getClass().getResource("StudentView.fxml"));
+        Parent tutorView = FXMLLoader.load(getClass().getResource("TutorView.fxml"));
+        /*primaryStage.setScene(new Scene(studentView,600,400));
+        primaryStage.show();*/
+        /*primaryStage.setScene(new Scene(tutorView, 800,400));
+        primaryStage.show();*/
     }
 
 
