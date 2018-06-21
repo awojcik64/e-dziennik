@@ -1,4 +1,4 @@
-package psk.java.projekt;
+package psk.java.projekt.client;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -10,12 +10,12 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-        Parent root = FXMLLoader.load(getClass().getResource("LoginForm.fxml"));
+        Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("psk/java/projekt/client/LoginForm.fxml"));
         primaryStage.setTitle("Hello World");
         primaryStage.setScene(new Scene(root, 600, 400));
         primaryStage.show();
-        Parent studentView = FXMLLoader.load(getClass().getResource("StudentView.fxml"));
-        Parent tutorView = FXMLLoader.load(getClass().getResource("TutorView.fxml"));
+        //Parent studentView = FXMLLoader.load(getClass().getClassLoader().getResource("psk/java/projekt/client/StudentView.fxml"));
+        //Parent tutorView = FXMLLoader.load(getClass().getClassLoader().getResource("psk/java/projekt/client/TutorView.fxml"));
         /*primaryStage.setScene(new Scene(studentView,600,400));
         primaryStage.show();*/
         /*primaryStage.setScene(new Scene(tutorView, 800,400));

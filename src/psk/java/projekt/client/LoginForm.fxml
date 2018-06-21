@@ -8,7 +8,7 @@
 <?import javafx.scene.text.Font?>
 
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="psk.java.projekt.LoginForm">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="psk.java.projekt.client.LoginForm">
    <children>
       <Label layoutX="182.0" layoutY="14.0" prefHeight="76.0" prefWidth="237.0" text="e-dziennik" textAlignment="CENTER">
          <font>
