@@ -8,39 +8,47 @@
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.ToolBar?>
-<?import javafx.scene.control.TreeView?>
 <?import javafx.scene.layout.AnchorPane?>
 
-
-<AnchorPane prefHeight="400.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="psk.java.projekt.client.TutorView">
+<AnchorPane prefHeight="400.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="psk.java.projekt.client.TutorView">
    <children>
-      <TreeView layoutX="14.0" layoutY="83.0" prefHeight="307.0" prefWidth="193.0" />
-      <TableView layoutX="207.0" layoutY="83.0" prefHeight="307.0" prefWidth="412.0">
+      <TableView fx:id="tutor_selectMark" layoutX="325.0" layoutY="83.0" prefHeight="307.0" prefWidth="294.0">
         <columns>
           <TableColumn editable="false" prefWidth="49.0" text="Ocena" />
-          <TableColumn editable="false" prefWidth="205.0" text="Opis" />
-            <TableColumn editable="false" prefWidth="46.0" text="Waga" />
-            <TableColumn editable="false" prefWidth="111.0" text="Data" />
+          <TableColumn editable="false" prefWidth="119.0" text="Opis" />
+            <TableColumn editable="false" prefWidth="47.0" text="Waga" />
+            <TableColumn editable="false" prefWidth="62.0" text="Data" />
         </columns>
       </TableView>
       <ToolBar layoutX="623.0" layoutY="83.0" orientation="VERTICAL" prefHeight="70.0" prefWidth="182.0">
          <items>
-            <TextField editable="false" prefHeight="26.0" prefWidth="163.0" promptText="Imię" />
-            <TextField editable="false" promptText="Nazwisko" />
+            <TextField fx:id="tutor_showName" editable="false" prefHeight="26.0" prefWidth="163.0" promptText="Imię" />
+            <TextField fx:id="tutor_showSurname" editable="false" promptText="Nazwisko" />
          </items>
       </ToolBar>
-      <ComboBox layoutX="14.0" layoutY="32.0" prefHeight="26.0" prefWidth="163.0" promptText="Nazwa przedmiotu" />
-      <Label layoutX="581.0" layoutY="37.0" text="Tytuł" />
-      <Label layoutX="620.0" layoutY="37.0" text="Imię" />
-      <Label layoutX="653.0" layoutY="37.0" text="Nazwisko" />
-      <Button layoutX="722.0" layoutY="32.0" mnemonicParsing="false" text="Wyloguj" />
+      <ComboBox fx:id="tutor_selectSubject" layoutX="14.0" layoutY="32.0" prefHeight="26.0" prefWidth="163.0" promptText="Nazwa przedmiotu" />
+      <Label fx:id="tutor_degree" layoutX="581.0" layoutY="37.0" text="Tytuł" />
+      <Label fx:id="tutor_name" layoutX="620.0" layoutY="37.0" text="Imię" />
+      <Label fx:id="tutor_surname" layoutX="653.0" layoutY="37.0" text="Nazwisko" />
+      <Button fx:id="tutor_logout" layoutX="722.0" layoutY="32.0" mnemonicParsing="false" text="Wyloguj" />
       <ToolBar layoutX="624.0" layoutY="168.0" orientation="VERTICAL" prefHeight="137.0" prefWidth="175.0">
          <items>
-            <ComboBox prefHeight="26.0" prefWidth="163.0" promptText="Ocena" />
-            <TextField promptText="Opis" />
-            <DatePicker prefHeight="26.0" prefWidth="163.0" />
-            <Button mnemonicParsing="false" prefHeight="26.0" prefWidth="164.0" text="Dodaj" />
+            <ComboBox fx:id="tutor_markSelect" prefHeight="26.0" prefWidth="163.0" promptText="Ocena" />
+            <TextField fx:id="tutor_markDesc" promptText="Opis" />
+            <DatePicker fx:id="tutor_markDate" prefHeight="26.0" prefWidth="163.0" />
+            <Button fx:id="tutor_markSubmit" mnemonicParsing="false" prefHeight="26.0" prefWidth="164.0" text="Dodaj" />
          </items>
       </ToolBar>
+      <TableView fx:id="tutor_selectGroup" layoutY="83.0" prefHeight="315.0" prefWidth="56.0">
+        <columns>
+          <TableColumn prefWidth="55.0" text="Grupa" />
+        </columns>
+      </TableView>
+      <TableView fx:id="tutor_selectStudent" layoutX="60.0" layoutY="83.0" prefHeight="315.0" prefWidth="263.0">
+         <columns>
+            <TableColumn prefWidth="97.0" text="Imię" />
+            <TableColumn prefWidth="165.0" text="Nazwisko" />
+         </columns>
+      </TableView>
    </children>
 </AnchorPane>
