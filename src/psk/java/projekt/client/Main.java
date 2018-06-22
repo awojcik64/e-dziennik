@@ -7,13 +7,29 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 public class Main extends Application {
-
+    private static Stage mainWindow;
+    private static Parent tutorView;
+    private static Parent loginForm;
+    private static Parent studentView;
     @Override
     public void start(Stage primaryStage) throws Exception{
-        Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("psk/java/projekt/client/LoginForm.fxml"));
+        mainWindow=primaryStage;
+        tutorView=FXMLLoader.load(getClass().getClassLoader().getResource("psk/java/projekt/client/TutorView.fxml"));
+        loginForm=FXMLLoader.load(getClass().getClassLoader().getResource("psk/java/projekt/client/LoginForm.fxml"));
+        studentView=FXMLLoader.load(getClass().getClassLoader().getResource("psk/java/projekt/client/StudentView.fxml"));
+        tutorView.prefHeight(400);
+        tutorView.prefWidth(800);
+        studentView.prefHeight(400);
+        studentView.prefWidth(600);
+        loginForm.prefHeight(400);
+        loginForm.prefWidth(600);
+        showLoginForm();
+        mainWindow.show();
+        //showStudentView();
+        /*Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("psk/java/projekt/client/LoginForm.fxml"));
         primaryStage.setTitle("Hello World");
         primaryStage.setScene(new Scene(root, 600, 400));
-        primaryStage.show();
+        primaryStage.show();*/
         //Parent studentView = FXMLLoader.load(getClass().getClassLoader().getResource("psk/java/projekt/client/StudentView.fxml"));
         //Parent tutorView = FXMLLoader.load(getClass().getClassLoader().getResource("psk/java/projekt/client/TutorView.fxml"));
         /*primaryStage.setScene(new Scene(studentView,600,400));
@@ -21,7 +37,24 @@ public class Main extends Application {
         /*primaryStage.setScene(new Scene(tutorView, 800,400));
         primaryStage.show();*/
     }
-
+    public static void showLoginForm()
+    {
+        //mainWindow.getScene().setRoot(loginForm);
+        mainWindow.setScene(new Scene(loginForm,600,400));
+        //mainWindow.show();
+    }
+    public static void showTutorView()
+    {
+        //mainWindow.getScene().setRoot(tutorView);
+        mainWindow.setScene(new Scene(tutorView,800,400));
+        //mainWindow.show();
+    }
+    public static void showStudentView()
+    {
+        //mainWindow.getScene().setRoot(studentView);
+        mainWindow.setScene(new Scene(studentView,600,400));
+        //mainWindow.show();
+    }
 
     public static void main(String[] args) {
         launch(args);
