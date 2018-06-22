@@ -1,12 +1,17 @@
 package psk.java.projekt.client;
 
+import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 
-import javax.swing.text.TableView;
+import javafx.scene.control.TableView;
 
-public class StudentView {
+import java.net.URL;
+import java.util.ResourceBundle;
+
+public class StudentView implements Initializable {
     @FXML
     TableView student_table;
     @FXML
@@ -15,8 +20,14 @@ public class StudentView {
     Label student_name;
     @FXML
     Label student_surname;
-    {
 
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        student_logout.setOnAction(actionEvent -> {
+            System.out.println("Logout");
+            Platform.exit();
+                }
+        );
     }
-
 }

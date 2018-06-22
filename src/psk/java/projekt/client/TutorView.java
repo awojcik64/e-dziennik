@@ -1,11 +1,15 @@
 package psk.java.projekt.client;
 
+import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 
 import javax.xml.soap.Text;
+import java.net.URL;
+import java.util.ResourceBundle;
 
-public class TutorView {
+public class TutorView implements Initializable {
     @FXML
     ComboBox<String> tutor_selectSubject;
     @FXML
@@ -34,7 +38,10 @@ public class TutorView {
     DatePicker tutor_markDate;
     @FXML
     Button tutor_markSubmit;
-    {
+
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
         tutor_selectSubject.setOnAction(event->
         {
             //TODO: Ustawienie listy grup do danego przedmiotu
@@ -42,6 +49,10 @@ public class TutorView {
         tutor_selectGroup.setOnScrollTo(event->
         {
             //TODO:Aktualizacja tabeli studentow przy wyborze grupy.
+        });
+        tutor_logout.setOnAction(actionEvent -> {
+            System.out.println("Tutor logout");
+            Platform.exit();
         });
     }
 }

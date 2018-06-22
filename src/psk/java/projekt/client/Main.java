@@ -25,7 +25,7 @@ public class Main extends Application {
         loginForm.prefWidth(600);
         showLoginForm();
         mainWindow.show();
-        showStudentView();
+        //showStudentView();
         /*Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("psk/java/projekt/client/LoginForm.fxml"));
         primaryStage.setTitle("Hello World");
         primaryStage.setScene(new Scene(root, 600, 400));
