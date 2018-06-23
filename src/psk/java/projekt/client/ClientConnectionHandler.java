@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.net.SocketTimeoutException;
 
 public class ClientConnectionHandler{
     ObjectOutputStream output;
@@ -20,8 +21,6 @@ public class ClientConnectionHandler{
         try{
             server=new Socket("localhost",27027);
             server.setSoTimeout(5000);
-            input=new ObjectInputStream(server.getInputStream());
-            output=new ObjectOutputStream(server.getOutputStream());
         }
         catch(Exception e)
         {
@@ -33,8 +32,11 @@ public class ClientConnectionHandler{
     public void login(LoginCredentials credentials)
     {
         try {
+            output=new ObjectOutputStream(server.getOutputStream());
             output.writeObject(credentials);
             output.flush();
+            System.out.println("Wysłano dane logowania do serwera.");
+            input=new ObjectInputStream(server.getInputStream());
             Object response=input.readObject();
             if(response instanceof String)
             {
@@ -60,7 +62,15 @@ public class ClientConnectionHandler{
                 unknownError();
             }
 
-        } catch (Exception e) {
+        }catch(SocketTimeoutException e)
+        {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Connection timeout");
+            alert.setContentText("Upłynął czas oczekiwania na odpowiedź od serwera!");
+            alert.showAndWait();
+            Platform.exit();
+        }
+        catch (Exception e) {
             e.printStackTrace();
         }
     }

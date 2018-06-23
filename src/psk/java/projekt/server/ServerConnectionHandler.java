@@ -12,7 +12,9 @@ public class ServerConnectionHandler implements Runnable {
     private ObjectOutputStream output;
     private ObjectInputStream input;
     private LoginCredentials credentials;
+    private UserDatagram userDatagram;
     public ServerConnectionHandler(Socket client) {
+        System.out.println("New connection handler created.");
         this.client = client;
         Thread thread = new Thread(this, "e-dziennik Connection Handler");
         try {
@@ -21,6 +23,7 @@ public class ServerConnectionHandler implements Runnable {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        thread.start();
     }
     void loginProcedure(LoginCredentials credentials)
     {
@@ -31,27 +34,39 @@ public class ServerConnectionHandler implements Runnable {
     public void run() {
         try {
             input=new ObjectInputStream(client.getInputStream());
-            output=new ObjectOutputStream(client.getOutputStream());
+            System.out.println("Receiving credentials from user...");
             credentials=(LoginCredentials)input.readObject();
-            String question="SELECT LOGIN, PASSWORD FROM KONTO WHERE LOGIN="+credentials.getLogin()+" AND PASSWORD="+credentials.getPasswd();
+            System.out.println("Here's what I got: "+credentials.getLogin()+" i "+credentials.getPasswd());
+            String question="SELECT LOGIN, PASSWORD FROM KONTO WHERE LOGIN=\'"+credentials.getLogin()+"\' AND PASSWORD=\'"+credentials.getPasswd()+"\'";
             Statement stmt=db.createStatement();
+            System.out.println("Sending db query...");
             ResultSet rs=stmt.executeQuery(question);
-            int rows;
-            if(rs.last())
+            boolean rows;
+            if(!rs.next())
             {
-                rows = rs.getRow();
-                rs.beforeFirst();
+                System.out.println("Brak rekordow dotyczacych uzytkownika.");
+                rows=false;
             }
-            else{
-                rows=0;
+            else
+            {
+                rows=true;
+                System.out.println("Wyglada na to, ze dane logowania sa poprawne!");
             }
-            if(rows==0) {
+            output=new ObjectOutputStream(client.getOutputStream());
+            if(rows==false) {
                 output.writeObject("loginFailed");
                 output.flush();
                 Thread.currentThread().join();
             }
             else
             {
+                String sqlCheckType="SELECT typ FROM konto WHERE LOGIN=\'"+credentials.getLogin()+"\' AND PASSWORD=\'"+credentials.getPasswd()+"\'";
+                stmt=db.createStatement();
+                rs=stmt.executeQuery(sqlCheckType);
+                userDatagram=new UserDatagram();
+                rs.next();
+                userDatagram.type=rs.getString(1);
+                System.out.println("Odczytałem: "+userDatagram.type);
 
             }
 

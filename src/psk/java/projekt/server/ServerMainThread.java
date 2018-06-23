@@ -24,6 +24,7 @@ public class ServerMainThread implements Runnable {
     public void run() {
         try {
             serverSocket=new ServerSocket(27027);
+            openedThreads=new ArrayList<ServerConnectionHandler>();
             status=true;
             System.out.println("Zainicjalizowano watek serwera");
             while(status)
