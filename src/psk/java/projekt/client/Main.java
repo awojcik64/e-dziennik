@@ -5,7 +5,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-
+import psk.java.projekt.server.LoginCredentials;
 public class Main extends Application {
     private static Stage mainWindow;
     private static Parent tutorView;
@@ -55,7 +55,10 @@ public class Main extends Application {
         mainWindow.setScene(new Scene(studentView,600,400));
         //mainWindow.show();
     }
+    public static void loginProcedure(LoginCredentials credentials)
+    {
 
+    }
     public static void main(String[] args) {
         launch(args);
     }
