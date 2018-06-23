@@ -34,6 +34,7 @@ public class ClientConnectionHandler{
     {
         try {
             output.writeObject(credentials);
+            output.flush();
             Object response=input.readObject();
             if(response instanceof String)
             {
