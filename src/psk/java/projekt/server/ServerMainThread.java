@@ -25,13 +25,22 @@ public class ServerMainThread implements Runnable {
         try {
             serverSocket=new ServerSocket(27027);
             status=true;
+            System.out.println("Zainicjalizowano watek serwera");
             while(status)
             {
                 Socket client=serverSocket.accept();
+
                 openedThreads.add(new ServerConnectionHandler(client));
+            }
+            try {
+                Thread.currentThread().join();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+                System.out.println("Thread join error");
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
+
     }
 }

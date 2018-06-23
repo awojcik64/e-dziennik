@@ -11,6 +11,8 @@ public class Main extends Application {
     private static Parent tutorView;
     private static Parent loginForm;
     private static Parent studentView;
+    private static ClientConnectionHandler handler;
+
     @Override
     public void start(Stage primaryStage) throws Exception{
         mainWindow=primaryStage;
@@ -57,6 +59,8 @@ public class Main extends Application {
     }
     public static void loginProcedure(LoginCredentials credentials)
     {
+        handler=ClientConnectionHandler.getInstance();
+        handler.login(credentials);
 
     }
     public static void main(String[] args) {

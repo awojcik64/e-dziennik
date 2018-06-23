@@ -23,4 +23,8 @@ public class ServerWindow implements Initializable {
             Platform.exit();
         });
     }
+    public void setNewCounter(int number)
+    {
+        serverHowMany.setText(new Integer(number).toString());
+    }
 }
