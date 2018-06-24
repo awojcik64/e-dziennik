@@ -14,11 +14,11 @@ public class Main extends Application {
     private static ClientConnectionHandler handler;
 
     @Override
-    public void start(Stage primaryStage) throws Exception{
-        mainWindow=primaryStage;
-        tutorView=FXMLLoader.load(getClass().getClassLoader().getResource("psk/java/projekt/client/TutorView.fxml"));
-        loginForm=FXMLLoader.load(getClass().getClassLoader().getResource("psk/java/projekt/client/LoginForm.fxml"));
-        studentView=FXMLLoader.load(getClass().getClassLoader().getResource("psk/java/projekt/client/StudentView.fxml"));
+    public void start(Stage primaryStage) throws Exception {
+        mainWindow = primaryStage;
+        tutorView = FXMLLoader.load(getClass().getClassLoader().getResource("psk/java/projekt/client/TutorView.fxml"));
+        loginForm = FXMLLoader.load(getClass().getClassLoader().getResource("psk/java/projekt/client/LoginForm.fxml"));
+        studentView = FXMLLoader.load(getClass().getClassLoader().getResource("psk/java/projekt/client/StudentView.fxml"));
         tutorView.prefHeight(400);
         tutorView.prefWidth(800);
         studentView.prefHeight(400);
@@ -26,6 +26,7 @@ public class Main extends Application {
         loginForm.prefHeight(400);
         loginForm.prefWidth(600);
         showLoginForm();
+        mainWindow.setTitle("e-dziennik");
         mainWindow.show();
         //showStudentView();
         /*Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("psk/java/projekt/client/LoginForm.fxml"));
@@ -39,29 +40,24 @@ public class Main extends Application {
         /*primaryStage.setScene(new Scene(tutorView, 800,400));
         primaryStage.show();*/
     }
-    public static void showLoginForm()
-    {
+    public static void showLoginForm() {
         //mainWindow.getScene().setRoot(loginForm);
         mainWindow.setScene(new Scene(loginForm,600,400));
         //mainWindow.show();
     }
-    public static void showTutorView()
-    {
+    public static void showTutorView() {
         //mainWindow.getScene().setRoot(tutorView);
         mainWindow.setScene(new Scene(tutorView,800,400));
         //mainWindow.show();
     }
-    public static void showStudentView()
-    {
+    public static void showStudentView() {
         //mainWindow.getScene().setRoot(studentView);
         mainWindow.setScene(new Scene(studentView,600,400));
         //mainWindow.show();
     }
-    public static void loginProcedure(LoginCredentials credentials)
-    {
+    public static void loginProcedure(LoginCredentials credentials) {
         handler=ClientConnectionHandler.getInstance();
         handler.login(credentials);
-
     }
     public static void main(String[] args) {
         launch(args);
