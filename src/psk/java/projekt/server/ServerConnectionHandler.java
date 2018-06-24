@@ -67,6 +67,35 @@ public class ServerConnectionHandler implements Runnable {
                 rs.next();
                 userDatagram.type=rs.getString(1);
                 System.out.println("Odczytałem: "+userDatagram.type);
+                if(userDatagram.type.equals("root") || userDatagram.type.equals("tutor"))
+                {
+                    String sqlGetGroups="SELECT grupy.nazwa FROM grupa_zajeciowa" +
+                            " JOIN grupy ON grupy.nr_grupy = grupa_zajeciowa.nr_grupy" +
+                            " WHERE grupa_zajeciowa.id_wykladowcy=1";
+                    stmt=db.createStatement();
+                    rs=stmt.executeQuery(sqlGetGroups);
+                    while(!rs.isLast())
+                    {
+                        userDatagram.groupList.add(rs.getString(1));
+                    }
+
+                    String sqlGetSubjects="SELECT przedmioty.nazwa FROM grupa_zajeciowa" +
+                            " JOIN przedmioty ON grupa_zajeciowa.id_przedmiotu=przedmioty.id_przedmiotu" +
+                            " WHERE grupa_zajeciowa.id_wykladowcy=1";
+                    stmt=db.createStatement();
+                    rs=stmt.executeQuery(sqlGetSubjects);
+                    while(!rs.isLast())
+                    {
+                        userDatagram.subjectList.add(rs.getString(1));
+                    }
+                    output.writeObject(userDatagram);
+
+
+                }
+                else if(userDatagram.type.equals("student"))
+                {
+                    String sqlGetSubject="SELECT ";
+                }
 
             }
 
