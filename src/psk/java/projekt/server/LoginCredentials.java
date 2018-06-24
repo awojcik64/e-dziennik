@@ -28,6 +28,16 @@ public class LoginCredentials implements Serializable {
     public String getPasswd() {
         return passwd;
     }
+    private Integer id;
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public Integer getId() {
+
+        return id;
+    }
 
     private String login;
     private String passwd;

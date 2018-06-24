@@ -6,6 +6,8 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import psk.java.projekt.server.LoginCredentials;
+import psk.java.projekt.server.UserDatagram;
+
 public class Main extends Application {
     private static Stage mainWindow;
     private static Parent tutorView;
@@ -58,6 +60,17 @@ public class Main extends Application {
     public static void loginProcedure(LoginCredentials credentials) {
         handler=ClientConnectionHandler.getInstance();
         handler.login(credentials);
+    }
+    public static void logonHandler(UserDatagram datagram)
+    {
+        if(datagram.type.equals("student"))
+        {
+            showStudentView();
+        }
+        else if(datagram.type.equals("root") || datagram.type.equals("tutor"))
+        {
+            showTutorView();
+        }
     }
     public static void main(String[] args) {
         launch(args);

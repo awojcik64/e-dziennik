@@ -7,10 +7,12 @@ final public class UserDatagram implements Serializable {
     public String imie;
     public String nazwisko;
     public String tytul;
-    public Map<String,Double[]> gradeMap;
+    public Integer studentNrAlbumu;
+    public Map<Integer,ArrayList<Double>> gradeMap;
     public ArrayList<String> groupList;
     public ArrayList<String> studentList;
     public ArrayList<String> subjectList;
+    public Map<Integer, String> subjectMap;
 
 }
 

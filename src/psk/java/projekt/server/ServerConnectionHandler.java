@@ -5,6 +5,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.sql.*;
+import java.util.ArrayList;
 
 public class ServerConnectionHandler implements Runnable {
     private Socket client;
@@ -37,7 +38,7 @@ public class ServerConnectionHandler implements Runnable {
             System.out.println("Receiving credentials from user...");
             credentials=(LoginCredentials)input.readObject();
             System.out.println("Here's what I got: "+credentials.getLogin()+" i "+credentials.getPasswd());
-            String question="SELECT LOGIN, PASSWORD FROM KONTO WHERE LOGIN=\'"+credentials.getLogin()+"\' AND PASSWORD=\'"+credentials.getPasswd()+"\'";
+            String question="SELECT LOGIN, PASSWORD, ID_OSOBA FROM KONTO WHERE LOGIN=\'"+credentials.getLogin()+"\' AND PASSWORD=\'"+credentials.getPasswd()+"\'";
             Statement stmt=db.createStatement();
             System.out.println("Sending db query...");
             ResultSet rs=stmt.executeQuery(question);
@@ -51,6 +52,7 @@ public class ServerConnectionHandler implements Runnable {
             {
                 rows=true;
                 System.out.println("Wyglada na to, ze dane logowania sa poprawne!");
+                credentials.setId(rs.getInt(3));
             }
             output=new ObjectOutputStream(client.getOutputStream());
             if(rows==false) {
@@ -72,21 +74,26 @@ public class ServerConnectionHandler implements Runnable {
                     String sqlGetGroups="SELECT grupy.nazwa FROM grupa_zajeciowa" +
                             " JOIN grupy ON grupy.nr_grupy = grupa_zajeciowa.nr_grupy" +
                             " WHERE grupa_zajeciowa.id_wykladowcy=1";
-                    stmt=db.createStatement();
+                    stmt=db.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
+                            ResultSet.CONCUR_READ_ONLY);
                     rs=stmt.executeQuery(sqlGetGroups);
+                    rs.next();
                     while(!rs.isLast())
                     {
                         userDatagram.groupList.add(rs.getString(1));
+                        rs.next();
                     }
 
                     String sqlGetSubjects="SELECT przedmioty.nazwa FROM grupa_zajeciowa" +
                             " JOIN przedmioty ON grupa_zajeciowa.id_przedmiotu=przedmioty.id_przedmiotu" +
                             " WHERE grupa_zajeciowa.id_wykladowcy=1";
-                    stmt=db.createStatement();
+                    stmt=db.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
+                            ResultSet.CONCUR_READ_ONLY);
                     rs=stmt.executeQuery(sqlGetSubjects);
                     while(!rs.isLast())
                     {
                         userDatagram.subjectList.add(rs.getString(1));
+                        rs.next();
                     }
                     output.writeObject(userDatagram);
 
@@ -94,7 +101,48 @@ public class ServerConnectionHandler implements Runnable {
                 }
                 else if(userDatagram.type.equals("student"))
                 {
-                    String sqlGetSubject="SELECT ";
+                    String sqlGetStudentNumber="SELECT nr_albumu FROM studenci" +
+                            " JOIN konto ON studenci.id_osoby=konto.id_osoba" +
+                            " WHERE konto.id_osoba="+credentials.getId()+"";
+                    stmt=db.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
+                            ResultSet.CONCUR_READ_ONLY);
+                    rs=stmt.executeQuery(sqlGetStudentNumber);
+                    rs.next();
+                    userDatagram.studentNrAlbumu=rs.getInt(1);
+                    String sqlGetSubject="SELECT DISTINCT id_przedmiotu FROM oceny" +
+                            " WHERE oceny.nr_albumu = "+credentials.getId()+" " +
+                            "ORDER BY id_przedmiotu DESC";
+                    stmt=db.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
+                            ResultSet.CONCUR_READ_ONLY);
+                    rs=stmt.executeQuery(sqlGetSubject);
+                    ArrayList<Integer> przedmiotIdList=new ArrayList<>();
+                    rs.next();
+                    while(!rs.isLast())
+                    {
+                        przedmiotIdList.add(rs.getInt(1));
+                        rs.next();
+                    }
+                    String sqlGetMarksForEachSubject;
+                    ArrayList<Double> tmpMarkList;
+                    for(int i=0; i< przedmiotIdList.size(); i++)
+                    {
+                        sqlGetMarksForEachSubject="SELECT ocena FROM oceny WHERE id_przedmiotu=" +
+                                ""+i+" AND nr_albumu="+userDatagram.studentNrAlbumu;
+                        stmt=db.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
+                                ResultSet.CONCUR_READ_ONLY);
+                        rs=stmt.executeQuery(sqlGetMarksForEachSubject);
+                        tmpMarkList=new ArrayList<Double>();
+                        rs.next();
+                        while(!rs.isLast())
+                        {
+                            tmpMarkList.add(rs.getDouble(1));
+                            rs.next();
+                        }
+                        userDatagram.gradeMap.put(i,tmpMarkList);
+
+
+                    }
+                    output.writeObject(userDatagram);
                 }
 
             }
