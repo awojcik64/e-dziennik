@@ -42,12 +42,19 @@ public class TutorView implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        tutor_selectSubject.setOnAction(event->
-        {
+        String subjects[] = new String[7];
+        subjects[0] = "Programowanie w języku Java";
+        subjects[1] = "Systemy operacyjne 2";
+        subjects[2] = "Systemy inteligentne 1";
+        subjects[3] = "Sieci komputerowe";
+        subjects[4] = "Ochrona własności intelektualnej";
+        subjects[5] = "Bazy danych 2";
+        subjects[6] = "Język obcy 2";
+        tutor_selectSubject.getItems().setAll(subjects);
+        tutor_selectSubject.setOnAction(event-> {
             //TODO: Ustawienie listy grup do danego przedmiotu
         });
-        tutor_selectGroup.setOnScrollTo(event->
-        {
+        tutor_selectGroup.setOnScrollTo(event-> {
             //TODO:Aktualizacja tabeli studentow przy wyborze grupy.
         });
         tutor_logout.setOnAction(actionEvent -> {
