@@ -77,11 +77,17 @@ public class ServerConnectionHandler implements Runnable {
                     stmt=db.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
                             ResultSet.CONCUR_READ_ONLY);
                     rs=stmt.executeQuery(sqlGetGroups);
-                    rs.next();
-                    while(!rs.isLast())
+                    if(!rs.next())
                     {
-                        userDatagram.groupList.add(rs.getString(1));
-                        rs.next();
+                        System.out.println("No groups on the record");
+                    }
+                    else
+                    {
+                        while(!rs.isLast())
+                        {
+                            userDatagram.groupList.add(rs.getString(1));
+                            rs.next();
+                        }
                     }
 
                     String sqlGetSubjects="SELECT przedmioty.nazwa FROM grupa_zajeciowa" +
@@ -90,6 +96,10 @@ public class ServerConnectionHandler implements Runnable {
                     stmt=db.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
                             ResultSet.CONCUR_READ_ONLY);
                     rs=stmt.executeQuery(sqlGetSubjects);
+                    if(!rs.next())
+                    {
+                        System.out.println("No subjects on the record");
+                    }
                     while(!rs.isLast())
                     {
                         userDatagram.subjectList.add(rs.getString(1));
@@ -107,7 +117,10 @@ public class ServerConnectionHandler implements Runnable {
                     stmt=db.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
                             ResultSet.CONCUR_READ_ONLY);
                     rs=stmt.executeQuery(sqlGetStudentNumber);
-                    rs.next();
+                    if(!rs.next())
+                    {
+                        System.out.println("Did not find student number");
+                    }
                     userDatagram.studentNrAlbumu=rs.getInt(1);
                     String sqlGetSubject="SELECT DISTINCT id_przedmiotu FROM oceny" +
                             " WHERE oceny.nr_albumu = "+credentials.getId()+" " +
