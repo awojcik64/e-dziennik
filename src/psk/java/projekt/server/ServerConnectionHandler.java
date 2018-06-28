@@ -68,6 +68,7 @@ public class ServerConnectionHandler implements Runnable {
                 userDatagram=new UserDatagram();
                 rs.next();
                 userDatagram.type=rs.getString(1);
+                System.out.println("Odczytano typ:"+userDatagram.type);
                 System.out.println("Odczytałem: "+userDatagram.type);
                 if(userDatagram.type.equals("root") || userDatagram.type.equals("tutor"))
                 {
@@ -77,7 +78,7 @@ public class ServerConnectionHandler implements Runnable {
                     stmt=db.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
                             ResultSet.CONCUR_READ_ONLY);
                     rs=stmt.executeQuery(sqlGetGroups);
-                    if(!rs.next())
+                    /*if(!rs.next())
                     {
                         System.out.println("No groups on the record");
                     }
@@ -88,6 +89,10 @@ public class ServerConnectionHandler implements Runnable {
                             userDatagram.groupList.add(rs.getString(1));
                             rs.next();
                         }
+                    }*/
+                    while(rs.next())
+                    {
+                        userDatagram.groupList.add(rs.getString(1));
                     }
 
                     String sqlGetSubjects="SELECT przedmioty.nazwa FROM grupa_zajeciowa" +
@@ -96,7 +101,7 @@ public class ServerConnectionHandler implements Runnable {
                     stmt=db.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
                             ResultSet.CONCUR_READ_ONLY);
                     rs=stmt.executeQuery(sqlGetSubjects);
-                    if(!rs.next())
+                    /*if(!rs.next())
                     {
                         System.out.println("No subjects on the record");
                     }
@@ -104,6 +109,10 @@ public class ServerConnectionHandler implements Runnable {
                     {
                         userDatagram.subjectList.add(rs.getString(1));
                         rs.next();
+                    }*/
+                    while(rs.next())
+                    {
+                        userDatagram.subjectList.add(rs.getString(1));
                     }
                     output.writeObject(userDatagram);
 
@@ -129,8 +138,8 @@ public class ServerConnectionHandler implements Runnable {
                             ResultSet.CONCUR_READ_ONLY);
                     rs=stmt.executeQuery(sqlGetSubject);
                     ArrayList<Integer> przedmiotIdList=new ArrayList<>();
-                    rs.next();
-                    while(!rs.isLast())
+
+                    while(rs.next())
                     {
                         przedmiotIdList.add(rs.getInt(1));
                         rs.next();
@@ -145,8 +154,8 @@ public class ServerConnectionHandler implements Runnable {
                                 ResultSet.CONCUR_READ_ONLY);
                         rs=stmt.executeQuery(sqlGetMarksForEachSubject);
                         tmpMarkList=new ArrayList<Double>();
-                        rs.next();
-                        while(!rs.isLast())
+
+                        while(rs.next())
                         {
                             tmpMarkList.add(rs.getDouble(1));
                             rs.next();
