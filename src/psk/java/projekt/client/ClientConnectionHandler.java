@@ -55,10 +55,10 @@ public class ClientConnectionHandler{
             }
             else if(response instanceof UserDatagram)
             {
-                if(((UserDatagram) response).type.equals("student"))
-                {
-
-                }
+                //if(((UserDatagram) response).type.equals("student"))
+                //{
+                    Main.logonHandler((UserDatagram)response);
+                //}
             }
             else
             {

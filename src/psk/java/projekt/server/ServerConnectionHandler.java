@@ -78,18 +78,7 @@ public class ServerConnectionHandler implements Runnable {
                     stmt=db.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
                             ResultSet.CONCUR_READ_ONLY);
                     rs=stmt.executeQuery(sqlGetGroups);
-                    /*if(!rs.next())
-                    {
-                        System.out.println("No groups on the record");
-                    }
-                    else
-                    {
-                        while(!rs.isLast())
-                        {
-                            userDatagram.groupList.add(rs.getString(1));
-                            rs.next();
-                        }
-                    }*/
+
                     while(rs.next())
                     {
                         userDatagram.groupList.add(rs.getString(1));
@@ -101,15 +90,6 @@ public class ServerConnectionHandler implements Runnable {
                     stmt=db.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
                             ResultSet.CONCUR_READ_ONLY);
                     rs=stmt.executeQuery(sqlGetSubjects);
-                    /*if(!rs.next())
-                    {
-                        System.out.println("No subjects on the record");
-                    }
-                    while(!rs.isLast())
-                    {
-                        userDatagram.subjectList.add(rs.getString(1));
-                        rs.next();
-                    }*/
                     while(rs.next())
                     {
                         userDatagram.subjectList.add(rs.getString(1));
