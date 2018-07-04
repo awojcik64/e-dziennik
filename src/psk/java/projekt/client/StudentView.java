@@ -71,14 +71,16 @@ final public class StudentView implements Initializable {
             System.out.println("Pierwszy element:"+tablicaOcen.get(0));
             for(int j=0; j<tablicaOcen.size(); j++)
             {
-
-                ocenyTemp.append(tablicaOcen.get(j)+','+' ');
+                System.out.println("Procesowana ocena:"+tablicaOcen.get(j));
+                ocenyTemp.append(tablicaOcen.get(j).toString()+','+' ');
             }
             studentTableModel.add(new StudentTableRow(przedmiotNazwa,ocenyTemp.toString()));
             student_table.setItems(studentTableModel);
             //student_table.getItems().add(new StudentTableRow(przedmiotNazwa,ocenyTemp.toString()));
 
         }
+        student_name.setText(datagram.imie);
+        student_surname.setText(datagram.nazwisko);
     }
 }
 final class StudentTableRow {

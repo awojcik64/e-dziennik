@@ -20,8 +20,8 @@
             <Font size="26.0" />
          </font>
       </Label>
-      <Label layoutX="397.0" layoutY="45.0" text="Witaj, " />
-      <Label fx:id="student_name" layoutX="433.0" layoutY="45.0" text="Imie" />
+      <Label layoutX="356.0" layoutY="45.0" text="Witaj, " />
+      <Label fx:id="student_name" layoutX="390.0" layoutY="45.0" text="Imie" />
       <Label fx:id="student_surname" layoutX="463.0" layoutY="45.0" text="Nazwisko" />
       <Button fx:id="student_logout" layoutX="522.0" layoutY="40.0" mnemonicParsing="false" text="Wyloguj" />
    </children>

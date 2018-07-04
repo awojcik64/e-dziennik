@@ -17,6 +17,7 @@ final public class ServerConnectionHandler implements Runnable {
     private LoginCredentials credentials;
     private UserDatagram userDatagram;
     public ServerConnectionHandler(Socket client) {
+        userDatagram=new UserDatagram();
         System.out.println("New connection handler created.");
         this.client = client;
         Thread thread = new Thread(this, "e-dziennik Connection Handler");
@@ -85,7 +86,7 @@ final public class ServerConnectionHandler implements Runnable {
         String sqlCheckType="SELECT typ FROM konto WHERE LOGIN=\'"+credentials.getLogin()+"\' AND PASSWORD=\'"+credentials.getPasswd()+"\'";
         stmt=db.createStatement();
         rs=stmt.executeQuery(sqlCheckType);
-        userDatagram=new UserDatagram();
+
         rs.next();
         userDatagram.type=rs.getString(1);
         System.out.println("Odczytano typ:"+userDatagram.type);
@@ -144,10 +145,23 @@ final public class ServerConnectionHandler implements Runnable {
             rows=true;
             System.out.println("Wyglada na to, ze dane logowania sa poprawne!");
             credentials.setId(rs.getInt(3));
+            getNameAndSurname(credentials.getId());
         }
         return rows;
     }
-
+    private void getNameAndSurname(int id_osoba) throws SQLException
+    {
+        Statement stmt;
+        ResultSet rs;
+        String sqlGetNameAndSurname="SELECT imie, nazwisko FROM osoby WHERE id_osoby="+id_osoba;
+        stmt=db.createStatement();
+        rs=stmt.executeQuery(sqlGetNameAndSurname);
+        if(rs.next())
+        {
+            userDatagram.imie=new String(rs.getString(1));
+            userDatagram.nazwisko=new String(rs.getString(2));
+        }
+    }
     private void processStudentData() throws SQLException, IOException {
         Statement stmt;
         ResultSet rs;
