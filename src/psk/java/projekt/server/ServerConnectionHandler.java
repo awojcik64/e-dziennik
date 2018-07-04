@@ -7,7 +7,7 @@ import java.net.Socket;
 import java.sql.*;
 import java.util.ArrayList;
 
-public class ServerConnectionHandler implements Runnable {
+final public class ServerConnectionHandler implements Runnable {
     private Socket client;
     private Connection db;
     private ObjectOutputStream output;

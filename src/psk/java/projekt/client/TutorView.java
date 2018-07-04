@@ -5,11 +5,10 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 
-import javax.xml.soap.Text;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class TutorView implements Initializable {
+final public class TutorView implements Initializable {
     @FXML
     ComboBox<String> tutor_selectSubject;
     @FXML

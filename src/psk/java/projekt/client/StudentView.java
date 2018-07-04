@@ -11,7 +11,7 @@ import javafx.scene.control.TableView;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class StudentView implements Initializable {
+final public class StudentView implements Initializable {
     @FXML
     TableView student_table;
     @FXML
@@ -21,7 +21,10 @@ public class StudentView implements Initializable {
     @FXML
     Label student_surname;
 
-
+    public void solicitation()
+    {
+        System.out.println("REEEEEEEEEEEEEEEEEE");
+    }
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         student_logout.setOnAction(actionEvent -> {

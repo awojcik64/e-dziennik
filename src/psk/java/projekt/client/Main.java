@@ -8,7 +8,7 @@ import javafx.stage.Stage;
 import psk.java.projekt.server.LoginCredentials;
 import psk.java.projekt.server.UserDatagram;
 
-public class Main extends Application {
+final public class Main extends Application {
     private static Stage mainWindow;
     private static Parent tutorView;
     private static TutorView tutorViewCtrl;
@@ -33,7 +33,8 @@ public class Main extends Application {
         loginFormCtrl=loginFormLoader.getController();
         studentView = studentViewLoader.load();
         studentViewCtrl=studentViewLoader.getController();
-        assert studentViewCtrl != null || tutorViewCtrl!=null ||loginFormCtrl!=null:"NULL przy ladowaniu.";
+        studentViewCtrl.solicitation();
+        assert studentViewCtrl != null || tutorViewCtrl!=null ||loginFormCtrl!=null:"Nie udało się załadować poprawnie kontrolerów.";
         tutorView.prefHeight(400);
         tutorView.prefWidth(800);
         studentView.prefHeight(400);

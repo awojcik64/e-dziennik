@@ -1,20 +1,18 @@
 package psk.java.projekt.client;
 
-import com.sun.security.ntlm.Client;
 import javafx.application.Platform;
 import javafx.scene.control.Alert;
 import psk.java.projekt.server.LoginCredentials;
 import psk.java.projekt.server.UserDatagram;
 
-import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.net.SocketTimeoutException;
 
-public class ClientConnectionHandler{
-    ObjectOutputStream output;
-    ObjectInputStream input;
+final public class ClientConnectionHandler{
+    private ObjectOutputStream output;
+    private ObjectInputStream input;
     private static Socket server;
     private static ClientConnectionHandler instance;
     private ClientConnectionHandler(){
@@ -29,7 +27,7 @@ public class ClientConnectionHandler{
         }
 
     }
-    public void login(LoginCredentials credentials)
+    void login(LoginCredentials credentials)
     {
         try {
             output=new ObjectOutputStream(server.getOutputStream());
@@ -55,10 +53,7 @@ public class ClientConnectionHandler{
             }
             else if(response instanceof UserDatagram)
             {
-                //if(((UserDatagram) response).type.equals("student"))
-                //{
                     Main.logonHandler((UserDatagram)response);
-                //}
             }
             else
             {
