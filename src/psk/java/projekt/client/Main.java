@@ -69,11 +69,11 @@ final public class Main extends Application {
         if(datagram.type.equals("student"))
         {
             showStudentView();
+            studentViewCtrl.showData(datagram);
         }
         else if(datagram.type.equals("root") || datagram.type.equals("tutor"))
         {
             showTutorView();
-            studentViewCtrl.solicitation();
         }
     }
     public static void main(String[] args) {

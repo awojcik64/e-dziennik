@@ -49,16 +49,17 @@ final public class ClientConnectionHandler{
                 }
                 else
                 {
-                    unknownError();
+                    unknownErrorAlert();
                 }
             }
             else if(response instanceof UserDatagram)
             {
                     Main.logonHandler((UserDatagram)response);
+                System.out.println((UserDatagram)response+"<- wartosc wskaznika response");
             }
             else
             {
-                unknownError();
+                unknownErrorAlert();
             }
 
         }catch(SocketTimeoutException e)
@@ -73,7 +74,7 @@ final public class ClientConnectionHandler{
             e.printStackTrace();
         }
     }
-    public static void unknownError()
+    public static void unknownErrorAlert()
     {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle("Nieznany błąd");
@@ -102,7 +103,7 @@ final public class ClientConnectionHandler{
                 output.writeObject("logout");
             } catch (IOException e) {
                 //e.printStackTrace();
-                unknownError();
+                unknownErrorAlert();
             }
         }
     }

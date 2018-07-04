@@ -6,6 +6,8 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 final public class ServerConnectionHandler implements Runnable {
     private Socket client;
@@ -68,10 +70,12 @@ final public class ServerConnectionHandler implements Runnable {
     }
 
     private boolean isStudent() {
+        System.out.println("Czy jest to student? "+userDatagram.type.equals("student"));
         return userDatagram.type.equals("student");
     }
 
     private boolean isTutor() {
+        System.out.println("Czy jest to wykladowca?"+(userDatagram.type.equals("root") || userDatagram.type.equals("wykladowca")));
         return userDatagram.type.equals("root") || userDatagram.type.equals("wykladowca");
     }
 
@@ -148,28 +152,27 @@ final public class ServerConnectionHandler implements Runnable {
         Statement stmt;
         ResultSet rs;
         getNrAlbumu();
-        String sqlGetSubject="SELECT DISTINCT przedmioty.nazwa FROM oceny" +
-                " JOIN przedmioty ON oceny.id_przedmiotu=przedmioty.id_przedmiotu" +
-                " WHERE oceny.nr_albumu = "+credentials.getId()+" " +
-                "ORDER BY id_przedmiotu DESC";
-        stmt=db.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
-                ResultSet.CONCUR_READ_ONLY);
-        rs=stmt.executeQuery(sqlGetSubject);
+        rs = getStudentSubjects();
         ArrayList<String> przedmiotList=new ArrayList<>();
-
+        System.out.println("Ok1");
         while(rs.next())
         {
             przedmiotList.add(rs.getString(1));
             rs.next();
         }
+        System.out.println("Ok2");
         String sqlGetMarksForEachSubject;
         ArrayList<Double> tmpMarkList;
+        System.out.println("Ok3");
+        System.out.println("Rozmiar listy przedmiotow:"+przedmiotList.size());
+        userDatagram.gradeMap=new HashMap();
         for(int i=0; i< przedmiotList.size(); i++)
         {
+            System.out.println("Loop iter start");
             sqlGetMarksForEachSubject="SELECT ocena, przedmioty.nazwa FROM oceny" +
                     " JOIN przedmioty ON oceny.id_przedmiotu=przedmioty.id_przedmiotu" +
-                    " WHERE przedmioty.nazwa=" +
-                    ""+przedmiotList.get(i)+" AND nr_albumu="+userDatagram.studentNrAlbumu;
+                    " WHERE przedmioty.nazwa=\'" +
+                    ""+przedmiotList.get(i)+"\' AND nr_albumu="+userDatagram.studentNrAlbumu;
             stmt=db.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
                     ResultSet.CONCUR_READ_ONLY);
             rs=stmt.executeQuery(sqlGetMarksForEachSubject);
@@ -181,11 +184,26 @@ final public class ServerConnectionHandler implements Runnable {
                 rs.next();
             }
             userDatagram.gradeMap.put(przedmiotList.get(i),tmpMarkList);
-
-
+            userDatagram.subjectList=przedmiotList;
+            System.out.println(przedmiotList==null?"Jest nullem":"Nie jest nullem");
+            System.out.println("Loop iter end");
         }
-
         output.writeObject(userDatagram);
+        System.out.println("Wyslano");
+    }
+
+    private ResultSet getStudentSubjects() throws SQLException {
+        Statement stmt;
+        ResultSet rs;
+        String sqlGetSubject="SELECT DISTINCT przedmioty.nazwa FROM oceny" +
+                " JOIN przedmioty ON oceny.id_przedmiotu=przedmioty.id_przedmiotu" +
+                " WHERE oceny.nr_albumu = "+userDatagram.studentNrAlbumu+" " +
+                "ORDER BY przedmioty.nazwa DESC";
+        stmt=db.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
+                ResultSet.CONCUR_READ_ONLY);
+        rs=stmt.executeQuery(sqlGetSubject);
+
+        return rs;
     }
 
     private void getNrAlbumu() throws SQLException {
