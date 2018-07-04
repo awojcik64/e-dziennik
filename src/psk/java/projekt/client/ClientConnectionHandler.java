@@ -5,6 +5,7 @@ import javafx.scene.control.Alert;
 import psk.java.projekt.server.LoginCredentials;
 import psk.java.projekt.server.UserDatagram;
 
+import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
@@ -92,6 +93,18 @@ final public class ClientConnectionHandler{
             return instance;
         }
 
+    }
+    public void logout()
+    {
+        if(server.isConnected())
+        {
+            try {
+                output.writeObject("logout");
+            } catch (IOException e) {
+                //e.printStackTrace();
+                unknownError();
+            }
+        }
     }
 
 }
