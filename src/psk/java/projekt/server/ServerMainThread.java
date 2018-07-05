@@ -27,12 +27,10 @@ public class ServerMainThread implements Runnable {
     }
 
     /**
-     * Publiczna metoda typu void jest przesłoniętą metodą z interfejsu Runnable, znajduje się w niej to co będzie wykonywane współbierznie
-     * @throws InterruptedException Może wystąpić wyjątek typu InterruptedException
-     * @throws IOException Może wystąpić wyjątek typu IOException
+     * Publiczna metoda typu void jest przesłoniętą metodą z interfejsu Runnable, znajduje się w niej to co będzie wykonywane współbierzni
      */
     @Override
-    public void run() throws InterruptedException, IOException {
+    public void run() {
         try {
             serverSocket = new ServerSocket(27027);
             openedThreads = new ArrayList<ServerConnectionHandler>();
