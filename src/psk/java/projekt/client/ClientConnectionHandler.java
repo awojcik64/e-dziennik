@@ -24,65 +24,50 @@ final public class ClientConnectionHandler{
      * Prywatny konstruktor klasy ClientConnectionHandler
      */
     private ClientConnectionHandler(){
-        try{
-            server=new Socket("localhost",27027);
+        try {
+            server = new Socket("localhost",27027);
             server.setSoTimeout(5000);
-        }
-        catch(Exception e)
-        {
+        } catch(Exception e) {
             e.getMessage();
             e.printStackTrace();
         }
-
     }
 
     /**
      * Metoda odpowiada za logowanie klienta
      * @param credentials Parametr przechowuje login oraz hasło
      */
-    void login(LoginCredentials credentials)
-    {
+    void login(LoginCredentials credentials) {
         try {
-            output=new ObjectOutputStream(server.getOutputStream());
+            output = new ObjectOutputStream(server.getOutputStream());
             output.writeObject(credentials);
             output.flush();
             System.out.println("Wysłano dane logowania do serwera.");
-            input=new ObjectInputStream(server.getInputStream());
-            Object response=input.readObject();
-            if(response instanceof String)
-            {
-                if(response.equals("loginFailed"))
-                {
+            input = new ObjectInputStream(server.getInputStream());
+            Object response = input.readObject();
+            if(response instanceof String) {
+                if(response.equals("loginFailed")) {
                     Alert alert = new Alert(Alert.AlertType.ERROR);
                     alert.setTitle("Błąd logowania");
                     alert.setContentText("Niepoprawna nazwa użytkownika, bądź hasło");
                     alert.showAndWait();
                     Platform.exit();
-                }
-                else
-                {
+                } else {
                     unknownErrorAlert();
                 }
-            }
-            else if(response instanceof UserDatagram)
-            {
-                    Main.logonHandler((UserDatagram)response);
-                System.out.println((UserDatagram)response+"<- wartosc wskaznika response");
-            }
-            else
-            {
+            } else if(response instanceof UserDatagram) {
+                Main.logonHandler((UserDatagram)response);
+                System.out.println((UserDatagram)response + "<- wartosc wskaznika response");
+            } else {
                 unknownErrorAlert();
             }
-
-        }catch(SocketTimeoutException e)
-        {
+        } catch(SocketTimeoutException e) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Connection timeout");
             alert.setContentText("Upłynął czas oczekiwania na odpowiedź od serwera!");
             alert.showAndWait();
             Platform.exit();
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -90,8 +75,7 @@ final public class ClientConnectionHandler{
     /**
      * Metoda sygnalizuje nieznany błąd
      */
-    public static void unknownErrorAlert()
-    {
+    public static void unknownErrorAlert() {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle("Nieznany błąd");
         alert.setContentText("Serwer odpowiedział nieznanym typem komunikatu.");
@@ -103,27 +87,20 @@ final public class ClientConnectionHandler{
      * Metoda to typowy getter ma pozyskać instancję obiektu
      * @return Zwraca instancję obiektu klasy ClientConnectionHandler jezeli nie istnieje
      */
-    static public ClientConnectionHandler getInstance()
-    {
-        if(instance==null)
-        {
-            instance=new ClientConnectionHandler();
+    static public ClientConnectionHandler getInstance() {
+        if(instance == null) {
+            instance = new ClientConnectionHandler();
+            return instance;
+        } else {
             return instance;
         }
-        else
-        {
-            return instance;
-        }
-
     }
 
     /**
      * Metoda odpowiada za wylogowanie klienta
      */
-    public void logout()
-    {
-        if(server.isConnected())
-        {
+    public void logout() {
+        if(server.isConnected()) {
             try {
                 output.writeObject("logout");
             } catch (IOException e) {
@@ -132,5 +109,4 @@ final public class ClientConnectionHandler{
             }
         }
     }
-
 }
