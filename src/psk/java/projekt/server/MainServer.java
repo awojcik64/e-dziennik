@@ -17,9 +17,9 @@ public class MainServer extends Application {
     private ServerWindow serverController;
 
     /**
-     * Publiczna metoda typu void to przesłonięta metoda z klasy Application
+     * Publiczna metoda typu void to przeslonięta metoda z klasy Application
      * @param stage Parametr typu Stage to scena
-     * @throws Exception Może wystąpić wyjątek typu Exception
+     * @throws Exception Może wystapic wyjatek typu Exception
      */
     @Override
     public void start(Stage stage) throws Exception {
