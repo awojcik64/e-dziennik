@@ -3,6 +3,10 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+
+/**
+ * Klasa odpowiada za datagram użytkownika, implementuje interfejs Serializable
+ */
 final public class UserDatagram implements Serializable {
     public String type;
     public String imie;
@@ -13,6 +17,5 @@ final public class UserDatagram implements Serializable {
     public ArrayList<String> groupList;
     public ArrayList<String> studentList;
     public ArrayList<String> subjectList;
-
 }
 

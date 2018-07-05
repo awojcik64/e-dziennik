@@ -7,21 +7,30 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+/**
+ * Klasa odpowiada za serwer, dziedziczy po klasie Application
+ */
 public class MainServer extends Application {
     private static Stage serverWindow;
     private static Parent window;
     private Thread server;
     private ServerWindow serverController;
+
+    /**
+     * Publiczna metoda typu void to przesłonięta metoda z klasy Application
+     * @param stage Parametr typu Stage to scena
+     * @throws Exception Może wystąpić wyjątek typu Exception
+     */
     @Override
     public void start(Stage stage) throws Exception {
-        serverWindow=stage;
+        serverWindow = stage;
         FXMLLoader loader = new FXMLLoader();
-        window=loader.load(getClass().getClassLoader().getResource("psk/java/projekt/server/ServerWindow.fxml"));
+        window = loader.load(getClass().getClassLoader().getResource("psk/java/projekt/server/ServerWindow.fxml"));
         window.prefWidth(300);
         window.prefHeight(200);
         serverWindow.setScene(new Scene(window,300,200));
         serverWindow.show();
-        server=new Thread(new ServerMainThread());
+        server = new Thread(new ServerMainThread());
         server.start();
 
         //serverController=loader.getController();
