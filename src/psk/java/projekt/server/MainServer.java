@@ -29,6 +29,7 @@ public class MainServer extends Application {
         window.prefWidth(300);
         window.prefHeight(200);
         serverWindow.setScene(new Scene(window,300,200));
+        serverWindow.setTitle("e-dziennik server");
         serverWindow.show();
         server = new Thread(new ServerMainThread());
         server.start();
