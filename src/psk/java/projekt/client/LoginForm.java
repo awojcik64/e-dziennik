@@ -9,7 +9,9 @@ import psk.java.projekt.server.LoginCredentials;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-
+/**
+ * Klasa odpowiada za formularz logowania
+ */
 final public class LoginForm implements Initializable {
     @FXML
     TextField login_username;
@@ -18,6 +20,11 @@ final public class LoginForm implements Initializable {
     @FXML
     Button login_submit;
 
+    /**
+     * To przesłonięta metoda z interfejsu Initializable, odpowiada za inicjalizację kontrolera
+     * @param url Adres servera
+     * @param resourceBundle Lokalizuje obiekt root
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         login_submit.setOnAction(event->
