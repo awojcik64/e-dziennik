@@ -47,7 +47,7 @@ public class LoginCredentials implements Serializable {
     }
 
     /**
-     * Publiczna metoda to getter ktory ma za zadanie pozyskac hasło
+     * Publiczna metoda to getter ktory ma za zadanie pozyskac haslo
      * @return Zwraca typ String - dokladnie zwraca hasło
      */
     public String getPasswd() {
@@ -64,7 +64,7 @@ public class LoginCredentials implements Serializable {
     }
 
     /**
-     * Publiczna metoda to getter który ma za zadanie pozyskac id
+     * Publiczna metoda to getter ktory ma za zadanie pozyskac id
      * @return Zwraca typ Integer - dokladnie zwraca id
      */
     public Integer getId() {
