@@ -22,6 +22,7 @@ final public class ServerConnectionHandler implements Runnable {
 
     /**
      * Publiczny konstruktor klasy ServerConnectionHandler
+     *
      * @param client Parametr typu Socket przekazuje do konstruktora gniazdo
      */
     public ServerConnectionHandler(Socket client) {
@@ -30,7 +31,7 @@ final public class ServerConnectionHandler implements Runnable {
         this.client = client;
         Thread thread = new Thread(this, "e-dziennik Connection Handler");
         try {
-            db = DriverManager.getConnection("jdbc:oracle:thin:@alekstablefield.asuscomm.com:27020:XE","edziennik","B@zka123!");
+            db = DriverManager.getConnection("jdbc:oracle:thin:@alekstablefield.asuscomm.com:27020:XE", "edziennik", "B@zka123!");
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -45,16 +46,20 @@ final public class ServerConnectionHandler implements Runnable {
         try {
             output = new ObjectOutputStream(client.getOutputStream());
             boolean rows = checkLoginData();
-            if(isLoginFailure(rows)) {
+            if (isLoginFailure(rows)) {
                 output.writeObject("loginFailed");
                 output.flush();
                 Thread.currentThread().join();
             } else {
                 getAccountType();
-                if(isTutor()) {
+                if (isTutor()) {
+                    getTutorID();
                     processGroupsData();
                     processSubjectNames();
-                } else if(isStudent()) {
+                    output.writeObject(userDatagram);
+
+                    //TODO: Zrobić listener na polecenia typu dodaj ocenę
+                } else if (isStudent()) {
                     processStudentData();
                 }
             }
@@ -66,8 +71,78 @@ final public class ServerConnectionHandler implements Runnable {
         }
     }
 
+    public void tutorActionListener() throws SQLException, IOException, ClassNotFoundException {
+        Statement stmt;
+        ResultSet rs;
+        Object command = input.readObject();
+        if (command instanceof UserDatagram) {
+            userDatagram = (UserDatagram) command;
+            if (userDatagram.command.equals("getGrupaByPrzedmiot")) {
+                getSubjectIdByName();
+                getGroupsBySubject();
+                output.writeObject(userDatagram);
+
+            } else if (userDatagram.command.equals("getStudentsByGroup")) {
+                getNrGrupyByName();
+                String sqlGetStudentList = "SELECT osoby.imie, osoby.nazwisko FROM osoby" +
+                        " JOIN studenci ON studenci.id_osoby=osoby.id_osoby" +
+                        " JOIN grupy ON grupy.nr_grupy=studenci.nr_grupy" +
+                        " JOIN grupa_zajeciowa ON grupa_zajeciowa.nr_grupy=grupy.nr_grupy" +
+                        " WHERE grupa_zajeciowa.id_przedmiotu=" + userDatagram.idPrzedmiotu +
+                        " AND grupa_zajeciowa.id_wykladowcy=" + userDatagram.tutorID +
+                        " AND grupy.nr_grupy=" + userDatagram.idGrupy;
+                stmt=db.createStatement();
+                rs=stmt.executeQuery(sqlGetStudentList);
+                userDatagram.tutorStudentsList=new ArrayList<>();
+                while(rs.next())
+                {
+                    userDatagram.tutorStudentsList.add(new TutorStudentsTableRow(rs.getString(1), rs.getString(2)));
+                }
+                output.writeObject(userDatagram);
+            }
+        }
+    }
+
+    private void getNrGrupyByName() throws SQLException {
+        Statement stmt;
+        ResultSet rs;
+        String sqlGetNrGrupyByName = "SELECT nr_grupy FROM grupy WHERE nazwa=\'" + userDatagram.nazwaGrupy + "\'";
+        stmt = db.createStatement();
+        rs = stmt.executeQuery(sqlGetNrGrupyByName);
+        if (rs.next()) {
+            userDatagram.idGrupy = rs.getInt(1);
+        }
+    }
+
+    private void getGroupsBySubject() throws SQLException {
+        Statement stmt;
+        ResultSet rs;
+        stmt = db.createStatement();
+        String sqlGetGroupsBySubject = "SELECT grupy.nazwa FROM grupy" +
+                " JOIN grupa_zajeciowa ON grupa_zajeciowa.nr_grupy=grupy.nr_grupy" +
+                " WHERE grupa_zajeciowa.id_przedmiotu=" + userDatagram.idPrzedmiotu + " AND grupa_zajeciowa.id_wykladowcy=" + userDatagram.tutorID;
+        rs = stmt.executeQuery(sqlGetGroupsBySubject);
+        while (rs.next()) {
+            userDatagram.subjectList.add(rs.getString(1));
+        }
+    }
+
+    private void getSubjectIdByName() throws SQLException {
+        Statement stmt;
+        ResultSet rs;
+        stmt = db.createStatement();
+        String sqlGetSubjectIdByName = "SELECT przedmioty.id_przedmiotu" +
+                " FROM przedmioty" +
+                " WHERE przedmioty.nazwa=\'" + userDatagram.nazwaPrzedmiotu + "\'";
+        rs = stmt.executeQuery(sqlGetSubjectIdByName);
+        if (rs.next()) {
+            userDatagram.idPrzedmiotu = rs.getInt(1);
+        }
+    }
+
     /**
      * Prywatna metoda typu boolean, jeżeli logowanie przebiegło nie pomyślnie to zwraca false
+     *
      * @param rows Parametr typu boolean
      * @return Zwraca wartości typu boolean
      */
@@ -77,6 +152,7 @@ final public class ServerConnectionHandler implements Runnable {
 
     /**
      * Prywatna metoda typu boolean, sprawdza czy zalogowany jest studentem
+     *
      * @return Zwraca wartości typu boolean true jeżeli userDatagram.type.equals("student"); w przeciwnym przypadku zwraca false
      */
     private boolean isStudent() {
@@ -86,6 +162,7 @@ final public class ServerConnectionHandler implements Runnable {
 
     /**
      * Prywatna metoda typu boolean, sprawdza czy zalogowany jest wykładowcą
+     *
      * @return Zwraca wartości typu boolean, true jeżeli userDatagram.type.equals("root") || userDatagram.type.equals("wykladowca"); w przeciwnym przypadku zwraca false
      */
     private boolean isTutor() {
@@ -95,6 +172,7 @@ final public class ServerConnectionHandler implements Runnable {
 
     /**
      * Prywatna metoda typu void to getter - pozyskuje informacje o typie konta
+     *
      * @throws SQLException Może wystąpić wyjątek typu SQLException
      */
     private void getAccountType() throws SQLException {
@@ -112,59 +190,76 @@ final public class ServerConnectionHandler implements Runnable {
 
     /**
      * Prywatna metoda typu void przetwarza przedmioty i dodaje je do subjectList
+     *
      * @throws SQLException Może wystąpić wyjątek typu SQLException
-     * @throws IOException Może wystąpić wyjątek typu IOException
+     * @throws IOException  Może wystąpić wyjątek typu IOException
      */
     private void processSubjectNames() throws SQLException, IOException {
         Statement stmt;
         ResultSet rs;
-        String sqlGetSubjects = "SELECT przedmioty.nazwa FROM grupa_zajeciowa" +
+        userDatagram.subjectList = new ArrayList<>();
+        String sqlGetSubjects = "SELECT DISTINCT przedmioty.nazwa FROM grupa_zajeciowa" +
                 " JOIN przedmioty ON grupa_zajeciowa.id_przedmiotu = przedmioty.id_przedmiotu" +
-                " WHERE grupa_zajeciowa.id_wykladowcy = 1";
+                " WHERE grupa_zajeciowa.id_wykladowcy = " + userDatagram.tutorID;
         stmt = db.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
         rs = stmt.executeQuery(sqlGetSubjects);
-        while(rs.next()) {
+        while (rs.next()) {
             userDatagram.subjectList.add(rs.getString(1));
         }
-        output.writeObject(userDatagram);
+
     }
 
     /**
      * Prywatna metoda typu void przetwarza grupy i dodaje je do groupList
+     *
      * @throws SQLException Może wystąpić wyjątek typu SQLException
      */
     private void processGroupsData() throws SQLException {
         Statement stmt;
         ResultSet rs;
+        userDatagram.groupList = new ArrayList<>();
         String sqlGetGroups = "SELECT grupy.nazwa FROM grupa_zajeciowa" +
                 " JOIN grupy ON grupy.nr_grupy = grupa_zajeciowa.nr_grupy" +
-                " WHERE grupa_zajeciowa.id_wykladowcy = 1";
+                " WHERE grupa_zajeciowa.id_wykladowcy = " + userDatagram.tutorID;
         stmt = db.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
         rs = stmt.executeQuery(sqlGetGroups);
 
-        while(rs.next()) {
+        while (rs.next()) {
             userDatagram.groupList.add(rs.getString(1));
+        }
+    }
+
+    private void getTutorID() throws SQLException {
+        Statement stmt;
+        ResultSet rs;
+        String sqlGetTutorID = "SELECT wykladowcy.id_wykladowcy FROM wykladowcy WHERE id_osoby=" + credentials.getId();
+        stmt = db.createStatement();
+        rs = stmt.executeQuery(sqlGetTutorID);
+        if (rs.next()) {
+            userDatagram.tutorID = rs.getInt(1);
+            System.out.println("Pobrane ID wykladowcy:" + rs.getInt(1));
         }
     }
 
     /**
      * Prywatna metoda typu boolean sprawdza dane logowania
+     *
      * @return Zwraca wartości typu boolean, false jeżeli !rs.next() w przeciwnym przypadku zwraca true
-     * @throws IOException Może wystąpić wyjątek typu IOException
+     * @throws IOException            Może wystąpić wyjątek typu IOException
      * @throws ClassNotFoundException Moze wystąpić wyjątek typu ClassNotFoundException
-     * @throws SQLException Może wystąpić wyjątek typu SQLException
+     * @throws SQLException           Może wystąpić wyjątek typu SQLException
      */
     private boolean checkLoginData() throws IOException, ClassNotFoundException, SQLException {
         input = new ObjectInputStream(client.getInputStream());
         System.out.println("Receiving credentials from user...");
-        credentials = (LoginCredentials)input.readObject();
+        credentials = (LoginCredentials) input.readObject();
         System.out.println("Here's what I got: " + credentials.getLogin() + " i " + credentials.getPasswd());
         String question = "SELECT LOGIN, PASSWORD, ID_OSOBA FROM KONTO WHERE LOGIN = \'" + credentials.getLogin() + "\' AND PASSWORD = \'" + credentials.getPasswd() + "\'";
         Statement stmt = db.createStatement();
         System.out.println("Sending db query...");
         ResultSet rs = stmt.executeQuery(question);
         boolean rows;
-        if(!rs.next()) {
+        if (!rs.next()) {
             System.out.println("Brak rekordow dotyczacych uzytkownika.");
             rows = false;
         } else {
@@ -178,6 +273,7 @@ final public class ServerConnectionHandler implements Runnable {
 
     /**
      * Prywatna metoda typu void to getter który ma za zadanie pozyskać imie oraz nazwisko
+     *
      * @param id_osoba Parametr typu int reprezentuje id_osoby
      * @throws SQLException Może wystąpić wyjątek typu SQLException
      */
@@ -187,7 +283,7 @@ final public class ServerConnectionHandler implements Runnable {
         String sqlGetNameAndSurname = "SELECT imie, nazwisko FROM osoby WHERE id_osoby = " + id_osoba;
         stmt = db.createStatement();
         rs = stmt.executeQuery(sqlGetNameAndSurname);
-        if(rs.next()) {
+        if (rs.next()) {
             userDatagram.imie = new String(rs.getString(1));
             userDatagram.nazwisko = new String(rs.getString(2));
         }
@@ -195,8 +291,9 @@ final public class ServerConnectionHandler implements Runnable {
 
     /**
      * Prywatna metoda typu void przetwarza dane studenta
+     *
      * @throws SQLException Może wystąpić wyjątek typu SQLException
-     * @throws IOException Może wystąpić wyjątek typu IOException
+     * @throws IOException  Może wystąpić wyjątek typu IOException
      */
     private void processStudentData() throws SQLException, IOException {
         Statement stmt;
@@ -205,7 +302,7 @@ final public class ServerConnectionHandler implements Runnable {
         rs = getStudentSubjects();
         ArrayList<String> przedmiotList = new ArrayList<>();
         System.out.println("Ok1");
-        while(rs.next()) {
+        while (rs.next()) {
             przedmiotList.add(rs.getString(1));
             rs.next();
         }
@@ -215,7 +312,7 @@ final public class ServerConnectionHandler implements Runnable {
         System.out.println("Ok3");
         System.out.println("Rozmiar listy przedmiotow:" + przedmiotList.size());
         userDatagram.gradeMap = new HashMap();
-        for(int i = 0; i < przedmiotList.size(); i++) {
+        for (int i = 0; i < przedmiotList.size(); i++) {
             System.out.println("Loop iter start");
             sqlGetMarksForEachSubject = "SELECT ocena, przedmioty.nazwa FROM oceny" +
                     " JOIN przedmioty ON oceny.id_przedmiotu = przedmioty.id_przedmiotu" +
@@ -225,7 +322,7 @@ final public class ServerConnectionHandler implements Runnable {
             rs = stmt.executeQuery(sqlGetMarksForEachSubject);
             tmpMarkList = new ArrayList<Double>();
 
-            while(rs.next()) {
+            while (rs.next()) {
                 tmpMarkList.add(rs.getDouble(1));
                 rs.next();
             }
@@ -240,6 +337,7 @@ final public class ServerConnectionHandler implements Runnable {
 
     /**
      * Prywatna metoda która jest getterem i ma za zadanie pozyskać przedmioty studenta
+     *
      * @return Zwraca typ ResultSet który zawiera nazwy przedmiotów
      * @throws SQLException Może wsytąpić wyjątek typu SQLException
      */
@@ -258,6 +356,7 @@ final public class ServerConnectionHandler implements Runnable {
 
     /**
      * Prywatna metoda typu void to getter który ma za zadanie pozyskać numer albumu
+     *
      * @throws SQLException Może wystąpić wyjątek typu SQLException
      */
     private void getNrAlbumu() throws SQLException {
@@ -268,10 +367,10 @@ final public class ServerConnectionHandler implements Runnable {
                 " WHERE konto.id_osoba = " + credentials.getId() + "";
         stmt = db.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
         rs = stmt.executeQuery(sqlGetStudentNumber);
-        if(!rs.next()) {
+        if (!rs.next()) {
             System.out.println("Did not find student number");
         }
         userDatagram.studentNrAlbumu = rs.getInt(1);
-        System.out.println("Numer albumu: "+userDatagram.studentNrAlbumu);
+        System.out.println("Numer albumu: " + userDatagram.studentNrAlbumu);
     }
 }

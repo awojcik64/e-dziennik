@@ -2,7 +2,6 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
-<?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
@@ -10,14 +9,11 @@
 <?import javafx.scene.control.ToolBar?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="400.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="psk.java.projekt.client.TutorView">
+<AnchorPane prefHeight="400.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="psk.java.projekt.client.TutorView">
    <children>
-      <TableView fx:id="tutor_selectMark" layoutX="325.0" layoutY="83.0" prefHeight="307.0" prefWidth="294.0">
+      <TableView fx:id="tutor_selectMark" layoutX="438.0" layoutY="83.0" prefHeight="307.0" prefWidth="182.0">
         <columns>
-          <TableColumn editable="false" prefWidth="49.0" text="Ocena" />
-          <TableColumn editable="false" prefWidth="119.0" text="Opis" />
-            <TableColumn editable="false" prefWidth="47.0" text="Waga" />
-            <TableColumn editable="false" prefWidth="62.0" text="Data" />
+          <TableColumn fx:id="tutorMarkColumn" editable="false" prefWidth="181.0" text="Ocena" />
         </columns>
       </TableView>
       <ToolBar layoutX="623.0" layoutY="83.0" orientation="VERTICAL" prefHeight="70.0" prefWidth="182.0">
@@ -31,23 +27,21 @@
       <Label fx:id="tutor_name" layoutX="620.0" layoutY="37.0" text="Imię" />
       <Label fx:id="tutor_surname" layoutX="653.0" layoutY="37.0" text="Nazwisko" />
       <Button fx:id="tutor_logout" layoutX="722.0" layoutY="32.0" mnemonicParsing="false" text="Wyloguj" />
-      <ToolBar layoutX="624.0" layoutY="168.0" orientation="VERTICAL" prefHeight="137.0" prefWidth="175.0">
+      <ToolBar layoutX="624.0" layoutY="168.0" orientation="VERTICAL" prefHeight="70.0" prefWidth="175.0">
          <items>
             <ComboBox fx:id="tutor_markSelect" prefHeight="26.0" prefWidth="163.0" promptText="Ocena" />
-            <TextField fx:id="tutor_markDesc" promptText="Opis" />
-            <DatePicker fx:id="tutor_markDate" prefHeight="26.0" prefWidth="163.0" />
             <Button fx:id="tutor_markSubmit" mnemonicParsing="false" prefHeight="26.0" prefWidth="164.0" text="Dodaj" />
          </items>
       </ToolBar>
-      <TableView fx:id="tutor_selectGroup" layoutY="83.0" prefHeight="315.0" prefWidth="56.0">
+      <TableView fx:id="tutor_selectGroup" layoutX="6.0" layoutY="83.0" prefHeight="315.0" prefWidth="145.0">
         <columns>
-          <TableColumn prefWidth="55.0" text="Grupa" />
+          <TableColumn fx:id="tutorGroupColumn" prefWidth="144.0" text="Grupa" />
         </columns>
       </TableView>
-      <TableView fx:id="tutor_selectStudent" layoutX="60.0" layoutY="83.0" prefHeight="315.0" prefWidth="263.0">
+      <TableView fx:id="tutor_selectStudent" layoutX="153.0" layoutY="83.0" prefHeight="315.0" prefWidth="283.0">
          <columns>
-            <TableColumn prefWidth="97.0" text="Imię" />
-            <TableColumn prefWidth="165.0" text="Nazwisko" />
+            <TableColumn fx:id="tutorNameColumn" prefWidth="140.0" text="Imię" />
+            <TableColumn fx:id="tutorSurnameColumn" prefWidth="142.0" text="Nazwisko" />
          </columns>
       </TableView>
    </children>

@@ -8,14 +8,21 @@ import java.util.Map;
  * Klasa odpowiada za datagram użytkownika, implementuje interfejs Serializable
  */
 final public class UserDatagram implements Serializable {
+    public String command;
     public String type;
     public String imie;
     public String nazwisko;
     public String tytul;
     public Integer studentNrAlbumu;
+    public Integer tutorID;
+    public String nazwaPrzedmiotu;
+    public int idPrzedmiotu;
+    public int nazwaGrupy;
+    public int idGrupy;
     public HashMap<String,ArrayList<Double>> gradeMap;
     public ArrayList<String> groupList;
     public ArrayList<String> studentList;
     public ArrayList<String> subjectList;
+    public ArrayList<String> markList;
+    public ArrayList<TutorStudentsTableRow> tutorStudentsList;
 }
-
