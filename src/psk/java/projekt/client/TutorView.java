@@ -42,7 +42,7 @@ final public class TutorView implements Initializable {
     Button tutor_markSubmit;
 
     /**
-     * To przesłonieta metoda typu void z interfejsu Initializable, odpowiada za inicjalizacje kontrolera
+     * To przeslonieta metoda typu void z interfejsu Initializable, odpowiada za inicjalizacje kontrolera
      * @param url Parametr typu URL przechowuje adres servera
      * @param resourceBundle Parametr typu ResourceBundle lokalizuje obiekt root
      */
