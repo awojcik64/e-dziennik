@@ -34,8 +34,8 @@ final public class ClientConnectionHandler{
     }
 
     /**
-     * Metoda odpowiada za logowanie klienta
-     * @param credentials Parametr przechowuje login oraz hasło
+     * Metoda typu void odpowiada za logowanie klienta
+     * @param credentials Parametr typu LoginCredentials przechowuje login oraz hasło
      */
     void login(LoginCredentials credentials) {
         try {
@@ -73,7 +73,7 @@ final public class ClientConnectionHandler{
     }
 
     /**
-     * Metoda sygnalizuje nieznany błąd
+     * Metoda typu void sygnalizuje nieznany błąd
      */
     public static void unknownErrorAlert() {
         Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -84,7 +84,7 @@ final public class ClientConnectionHandler{
     }
 
     /**
-     * Metoda to typowy getter ma pozyskać instancję obiektu
+     * Publiczna statyczna metoda to typowy getter ma pozyskać instancję obiektu
      * @return Zwraca instancję obiektu klasy ClientConnectionHandler jezeli nie istnieje
      */
     static public ClientConnectionHandler getInstance() {
@@ -97,7 +97,7 @@ final public class ClientConnectionHandler{
     }
 
     /**
-     * Metoda odpowiada za wylogowanie klienta
+     * Publiczna metoda typu void odpowiada za wylogowanie klienta
      */
     public void logout() {
         if(server.isConnected()) {
