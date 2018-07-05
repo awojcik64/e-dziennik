@@ -14,6 +14,7 @@ import psk.java.projekt.server.UserDatagram;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.function.DoubleToLongFunction;
 
 /**
  * Klasa odpowiada za wyświetlanie widoku wykładowcy, implementuje interfejs Initializable
@@ -57,6 +58,7 @@ final public class TutorView implements Initializable {
     private ObservableList<TutorMarkTableRow> tutorMarkTableModel;
     private ClientConnectionHandler clientConnectionHandler;
     private UserDatagram userDatagram;
+    private ObservableList<String> markListModel;
 
 
     public TutorView() {
@@ -87,7 +89,9 @@ final public class TutorView implements Initializable {
             }
 
         });
-
+        markListModel=FXCollections.observableArrayList();
+        markListModel.addAll(new Double(2.0).toString(), new Double(3.0).toString(),new Double(4.0).toString(),new Double(5.0).toString());
+        tutor_markSelect.setItems(markListModel);
         tutor_selectGroup.setOnMouseClicked(event -> {
             userDatagram.command = "getStudentsByGroup";
             userDatagram.nazwaGrupy = tutor_selectGroup.getSelectionModel().getSelectedItem().getGroupName();
@@ -110,28 +114,38 @@ final public class TutorView implements Initializable {
             System.out.println("Id studenta do odczytu:" +userDatagram.studentNrAlbumu);
             System.out.println("Nr przedmiotu:"+userDatagram.idPrzedmiotu);
             tutorMarkTableModel=FXCollections.observableArrayList();
-            try{
-                userDatagram=(UserDatagram)clientConnectionHandler.getDataFromServer(userDatagram);
-                for(String row:userDatagram.markList)
-                {
-                    tutorMarkTableModel.add(new TutorMarkTableRow(row));
-                    System.out.println("Select student trigger executed");
-                }
-                tutor_selectMark.setItems(tutorMarkTableModel);
-            }
-            catch (Exception e)
-            {
-                e.printStackTrace();
-            }
+            updateMarkTable();
         });
         tutor_logout.setOnAction(actionEvent -> {
             System.out.println("Tutor logout");
             Platform.exit();
         });
+        tutor_markSubmit.setOnAction(event -> {
+            userDatagram.command="addMark";
+            userDatagram.addedMark=Double.parseDouble(tutor_markSelect.getValue());
+            updateMarkTable();
+
+        });
         tutorGroupColumn.setCellValueFactory(cellData -> cellData.getValue().groupNameProperty());
         tutorNameColumn.setCellValueFactory(cellData -> cellData.getValue().nameProperty());
         tutorSurnameColumn.setCellValueFactory(cellData -> cellData.getValue().surnameProperty());
         tutorMarkColumn.setCellValueFactory(cellData -> cellData.getValue().markProperty());
+    }
+
+    private void updateMarkTable() {
+        try{
+            userDatagram=(UserDatagram)clientConnectionHandler.getDataFromServer(userDatagram);
+            for(String row:userDatagram.markList)
+            {
+                tutorMarkTableModel.add(new TutorMarkTableRow(row));
+                System.out.println("Select student trigger executed");
+            }
+            tutor_selectMark.setItems(tutorMarkTableModel);
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
     }
 
     public void showData(UserDatagram datagram) {
@@ -145,6 +159,9 @@ final public class TutorView implements Initializable {
         for (String group : userDatagram.groupList) {
             tutorGroupTableModel.add(new TutorGroupTableRow(group));
         }
+        tutor_degree.setText(userDatagram.tytul);
+        tutor_name.setText(userDatagram.imie);
+        tutor_surname.setText(userDatagram.nazwisko);
     }
 }
 

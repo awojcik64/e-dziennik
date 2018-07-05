@@ -9,7 +9,7 @@
 <?import javafx.scene.control.ToolBar?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="400.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="psk.java.projekt.client.TutorView">
+<AnchorPane prefHeight="400.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="psk.java.projekt.client.TutorView">
    <children>
       <TableView fx:id="tutor_selectMark" layoutX="438.0" layoutY="83.0" prefHeight="307.0" prefWidth="182.0">
         <columns>
@@ -23,8 +23,8 @@
          </items>
       </ToolBar>
       <ComboBox fx:id="tutor_selectSubject" layoutX="14.0" layoutY="32.0" prefHeight="26.0" prefWidth="163.0" promptText="Nazwa przedmiotu" />
-      <Label fx:id="tutor_degree" layoutX="581.0" layoutY="37.0" text="Tytuł" />
-      <Label fx:id="tutor_name" layoutX="620.0" layoutY="37.0" text="Imię" />
+      <Label fx:id="tutor_degree" layoutX="516.0" layoutY="37.0" text="Tytuł" />
+      <Label fx:id="tutor_name" layoutX="597.0" layoutY="37.0" text="Imię" />
       <Label fx:id="tutor_surname" layoutX="653.0" layoutY="37.0" text="Nazwisko" />
       <Button fx:id="tutor_logout" layoutX="722.0" layoutY="32.0" mnemonicParsing="false" text="Wyloguj" />
       <ToolBar layoutX="624.0" layoutY="168.0" orientation="VERTICAL" prefHeight="70.0" prefWidth="175.0">

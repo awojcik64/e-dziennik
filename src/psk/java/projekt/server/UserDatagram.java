@@ -19,7 +19,7 @@ final public class UserDatagram implements Serializable {
     public int idPrzedmiotu;
     public String nazwaGrupy;
     public int idGrupy;
-    public int addedMark;
+    public double addedMark;
     public String studentImie;
     public String studentNazwisko;
     public HashMap<String,ArrayList<Double>> gradeMap;
