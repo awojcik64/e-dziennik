@@ -14,7 +14,7 @@ public class ServerMainThread implements Runnable {
     private ArrayList<ServerConnectionHandler> openedThreads;
 
     /**
-     * Publiczna metoda typu void ktora ma za zadanie zamknąc gniazdo
+     * Publiczna metoda typu void ktora ma za zadanie zamknac gniazdo
      * @throws IOException Moze wystapic wyjatek typu IOException
      */
     public void close() throws IOException {
