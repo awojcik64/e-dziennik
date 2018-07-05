@@ -105,30 +105,32 @@ final public class StudentView implements Initializable {
  */
 final class StudentTableRow {
     /**
-     *
-     * @return
+     * Publiczna metoda to getter ma za zadanie pobrać informacje o przedmiotach
+     * @return Zwraca typ String - dokładnie przedmiot
      */
     public String getSubject() {
         return subject.get();
     }
+
     /**
-     *
+     * Publiczna metoda typu void to setter która ma za zadanie przypisać przedmiot do pola subject klasy StudentTableRow
+     * @param subject Parametr typu String
      */
     public void setSubject(String subject) {
         this.subject = new SimpleStringProperty(subject);
     }
 
     /**
-     *
-     * @return
+     * Publiczna metoda to getter ma za zadanie pobrać informacje o ocenach
+     * @return Zwraca typ String - dokładnie ocenę
      */
     public String getMarks() {
         return marks.get();
     }
 
     /**
-     *
-     * @return
+     * Publiczna metoda odpowiada za właściwości ocen
+     * @return Zwraca typ StringProperty - dokłdnie ocenę
      */
     public StringProperty marksProperty()
     {
@@ -136,8 +138,8 @@ final class StudentTableRow {
     }
 
     /**
-     *
-     * @return
+     * Publiczna metoda odpowiada za właściwości przedmiotów
+     * @return Zwraca typ StringProperty - dokładnie przedmiot
      */
     public StringProperty subjectProperty()
     {
@@ -145,17 +147,17 @@ final class StudentTableRow {
     }
 
     /**
-     *
-     * @param marks
+     * Publiczna metoda typu void to setter który ma za zadanie przypisać ocenę do pola marks klasy StudentTableRow
+     * @param marks Parametr typu String - jest to ocena
      */
     public void setMarks(String marks) {
         this.marks = new SimpleStringProperty(marks);
     }
 
     /**
-     *
-     * @param subject
-     * @param marks
+     * Publiczny konstruktor z dwoma parametrami klasy StudentTableRow
+     * @param subject Parametr typu String - jest to przedmiot
+     * @param marks Parametr typu String - jest to ocena
      */
     public StudentTableRow(String subject, String marks) {
         this.subject = new SimpleStringProperty(subject);
