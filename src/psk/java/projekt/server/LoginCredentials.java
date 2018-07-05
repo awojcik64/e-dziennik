@@ -13,7 +13,7 @@ public class LoginCredentials implements Serializable {
     }
 
     /**
-     * Publiczny przeciążony konstruktor klasy LoginCredentials który przyjmuje 2 parametry
+     * Publiczny przeciazony konstruktor klasy LoginCredentials ktory przyjmuje 2 parametry
      * @param login Parametr typu String który przechowuje login
      * @param passwd Parametr typu String który przechowuje hasło
      */
@@ -23,32 +23,32 @@ public class LoginCredentials implements Serializable {
     }
 
     /**
-     * Publiczna metoda typu void to setter który ma za zadanie przypisać login do pola login klasy LoginCredentials
-     * @param login Parametr typu String który przechowuje login
+     * Publiczna metoda typu void to setter ktory ma za zadanie przypisac login do pola login klasy LoginCredentials
+     * @param login Parametr typu String ktory przechowuje login
      */
     public void setLogin(String login) {
         this.login = login;
     }
 
     /**
-     * Publiczna metoda typu void to setter który ma za zadanie przypisać hasł do pola passwd klasy LoginCredentials
-     * @param passwd Parametr typu String - dokładnie jest to hasło
+     * Publiczna metoda typu void to setter ktory ma za zadanie przypisac haslo do pola passwd klasy LoginCredentials
+     * @param passwd Parametr typu String - dokladnie jest to hasło
      */
     public void setPasswd(String passwd) {
         this.passwd = passwd;
     }
 
     /**
-     * Publiczna metoda to getter który ma za zadanie pozyskać login
-     * @return Zwraca typ String - dokładnie zwraca login
+     * Publiczna metoda to getter ktory ma za zadanie pozyskac login
+     * @return Zwraca typ String - dokladnie zwraca login
      */
     public String getLogin() {
         return login;
     }
 
     /**
-     * Publiczna metoda to getter który ma za zadanie pozyskać hasło
-     * @return Zwraca typ String - dokładnie zwraca hasło
+     * Publiczna metoda to getter ktory ma za zadanie pozyskac hasło
+     * @return Zwraca typ String - dokladnie zwraca hasło
      */
     public String getPasswd() {
         return passwd;
@@ -56,16 +56,16 @@ public class LoginCredentials implements Serializable {
     private Integer id;
 
     /**
-     * Publiczna metoda typu void to setter który ma za zadanie przypisać id do pola id klasy LoginCredentials
-     * @param id Parametr typu Integer który przechowuje id
+     * Publiczna metoda typu void to setter ktory ma za zadanie przypisac id do pola id klasy LoginCredentials
+     * @param id Parametr typu Integer ktory przechowuje id
      */
     public void setId(Integer id) {
         this.id = id;
     }
 
     /**
-     * Publiczna metoda to getter który ma za zadanie pozyskać id
-     * @return Zwraca typ Integer - dokładnie zwraca id
+     * Publiczna metoda to getter który ma za zadanie pozyskac id
+     * @return Zwraca typ Integer - dokladnie zwraca id
      */
     public Integer getId() {
         return id;
