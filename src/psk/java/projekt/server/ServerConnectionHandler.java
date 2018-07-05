@@ -2,6 +2,7 @@ package psk.java.projekt.server;
 
 import javafx.beans.property.StringProperty;
 
+import javax.swing.plaf.nimbus.State;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -56,6 +57,7 @@ final public class ServerConnectionHandler implements Runnable {
                 getAccountType();
                 if (isTutor()) {
                     getTutorID();
+                    tutorGetPersonalData();
                     processGroupsData();
                     processSubjectNames();
                     output.writeObject(userDatagram);
@@ -71,7 +73,20 @@ final public class ServerConnectionHandler implements Runnable {
             e.getMessage();
         }
     }
-
+    public void tutorGetPersonalData() throws Exception
+    {
+        String sqlGetTutorPersonalData="SELECT osoby.imie, osoby.nazwisko, wykladowcy.tytul FROM osoby" +
+                " JOIN wykladowcy ON wykladowcy.id_osoby=osoby.id_osoby" +
+                " WHERE wykladowcy.id_wykladowcy="+userDatagram.tutorID;
+        Statement stmt=db.createStatement();
+        ResultSet rs=stmt.executeQuery(sqlGetTutorPersonalData);
+        if(rs.next())
+        {
+            userDatagram.imie=rs.getString(1);
+            userDatagram.nazwisko=rs.getString(2);
+            userDatagram.tytul=rs.getString(3);
+        }
+    }
     public void tutorActionListener() throws SQLException, IOException, ClassNotFoundException {
         Statement stmt;
         ResultSet rs;
@@ -106,16 +121,7 @@ final public class ServerConnectionHandler implements Runnable {
             else if(userDatagram.command.equals("getMarksByStudent"))
             {
                 getNrAlbumuByPersonalData();
-                userDatagram.markList=new ArrayList<>();
-                String sqlGetMarksByStudentAndSubject="SELECT ocena FROM oceny\n" +
-                        "WHERE oceny.id_przedmiotu="+userDatagram.idPrzedmiotu+" AND nr_albumu="+userDatagram.studentNrAlbumu;
-                rs=db.createStatement().executeQuery(sqlGetMarksByStudentAndSubject);
-                if(rs.next())
-                {
-                    userDatagram.markList.add(new Double(rs.getDouble(1)).toString());
-                }
-                output.writeObject(userDatagram);
-                output.flush();
+                getMarksByStudent();
             }
             else if(userDatagram.command.equals("addMark"))
             {
@@ -132,7 +138,8 @@ final public class ServerConnectionHandler implements Runnable {
                 Statement update=db.createStatement();
                 try {
                     update.executeUpdate(insertString);
-                    output.writeObject("insertSuccess");
+                    getMarksByStudent();
+                    output.writeObject(userDatagram);
                 }
                 catch(Exception e)
                 {
@@ -156,6 +163,21 @@ final public class ServerConnectionHandler implements Runnable {
             }
         }
     }
+
+    private void getMarksByStudent() throws SQLException, IOException {
+        ResultSet rs;
+        userDatagram.markList=new ArrayList<>();
+        String sqlGetMarksByStudentAndSubject="SELECT ocena FROM oceny\n" +
+                "WHERE oceny.id_przedmiotu="+userDatagram.idPrzedmiotu+" AND nr_albumu="+userDatagram.studentNrAlbumu;
+        rs=db.createStatement().executeQuery(sqlGetMarksByStudentAndSubject);
+        if(rs.next())
+        {
+            userDatagram.markList.add(new Double(rs.getDouble(1)).toString());
+        }
+        output.writeObject(userDatagram);
+        output.flush();
+    }
+
     private void getNrAlbumuByPersonalData() throws SQLException
     {
         String sqlGetNrAlbumuByPersonalData="SELECT studenci.nr_albumu FROM studenci" +
