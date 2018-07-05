@@ -8,6 +8,9 @@ import javafx.scene.control.*;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+/**
+ * Klasa odpowiada za wyświetlanie widoku wykładowcy, implementuje interfejs Initializable
+ */
 final public class TutorView implements Initializable {
     @FXML
     ComboBox<String> tutor_selectSubject;
@@ -38,7 +41,11 @@ final public class TutorView implements Initializable {
     @FXML
     Button tutor_markSubmit;
 
-
+    /**
+     * To przesłonięta metoda z interfejsu Initializable, odpowiada za inicjalizację kontrolera
+     * @param url Adres servera
+     * @param resourceBundle Lokalizuje obiekt root
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         tutor_selectSubject.setOnAction(event->
