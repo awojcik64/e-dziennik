@@ -32,7 +32,7 @@ public class LoginCredentials implements Serializable {
 
     /**
      * Publiczna metoda typu void to setter który ma za zadanie przypisać hasł do pola passwd klasy LoginCredentials
-     * @param passwd
+     * @param passwd Parametr typu String - dokładnie jest to hasło
      */
     public void setPasswd(String passwd) {
         this.passwd = passwd;
