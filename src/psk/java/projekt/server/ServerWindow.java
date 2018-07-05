@@ -20,7 +20,7 @@ public class ServerWindow implements Initializable {
     Label serverHowMany;
 
     /**
-     * To przesłonięta metoda typu void z interfejsu Initializable, odpowiada za inicjalizację kontrolera
+     * To przeslonieta metoda typu void z interfejsu Initializable, odpowiada za inicjalizacje kontrolera
      * @param url Parametr typu URL to adres servera
      * @param resourceBundle Parametr typu ResourceBundle lokalizuje obiekt root
      */
@@ -33,8 +33,8 @@ public class ServerWindow implements Initializable {
     }
 
     /**
-     * Publiczna metoda typu void to setter który ma za zadanie zmienić licznik
-     * @param number Parametr typu int przechowuje ilość połączonych klientów
+     * Publiczna metoda typu void to setter ktory ma za zadanie zmienic licznik
+     * @param number Parametr typu int przechowuje ilosc polaczonych klientow
      */
     public void setNewCounter(int number) {
         serverHowMany.setText(new Integer(number).toString());
