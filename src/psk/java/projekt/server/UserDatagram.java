@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Klasa odpowiada za datagram użytkownika, implementuje interfejs Serializable
+ * Klasa odpowiada za datagram uzytkownika, implementuje interfejs Serializable
  */
 final public class UserDatagram implements Serializable {
     public String type;
