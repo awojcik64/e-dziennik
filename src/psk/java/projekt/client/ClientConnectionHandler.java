@@ -21,7 +21,7 @@ final public class ClientConnectionHandler{
     private static ClientConnectionHandler instance;
 
     /**
-     * Metoda odpowiadająca za utworzenie połączenia za pomocą Socketów
+     * Prywatny konstruktor klasy ClientConnectionHandler
      */
     private ClientConnectionHandler(){
         try{
