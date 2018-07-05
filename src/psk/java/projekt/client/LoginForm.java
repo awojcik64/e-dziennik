@@ -21,7 +21,7 @@ final public class LoginForm implements Initializable {
     Button login_submit;
 
     /**
-     * To przesłonięta metoda typu void z interfejsu Initializable, odpowiada za inicjalizację kontrolera
+     * To przeslonieta metoda typu void z interfejsu Initializable, odpowiada za inicjalizacje kontrolera
      * @param url Parametr typu URL to adres servera
      * @param resourceBundle Parametr typu ResourceBundle lokalizuje obiekt root
      */
