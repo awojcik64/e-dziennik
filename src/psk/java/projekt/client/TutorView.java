@@ -42,9 +42,9 @@ final public class TutorView implements Initializable {
     Button tutor_markSubmit;
 
     /**
-     * To przesłonięta metoda z interfejsu Initializable, odpowiada za inicjalizację kontrolera
-     * @param url Adres servera
-     * @param resourceBundle Lokalizuje obiekt root
+     * To przesłonięta metoda typu void z interfejsu Initializable, odpowiada za inicjalizację kontrolera
+     * @param url Parametr typu URL przechowuje adres servera
+     * @param resourceBundle Parametr typu ResourceBundle lokalizuje obiekt root
      */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
