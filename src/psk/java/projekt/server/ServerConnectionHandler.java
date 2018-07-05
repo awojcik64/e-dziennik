@@ -10,7 +10,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Klasa odpowiada za połączenie, implementuje interfejs Runnable
+ * Klasa odpowiada za polaczenie, implementuje interfejs Runnable
  */
 final public class ServerConnectionHandler implements Runnable {
     private Socket client;
@@ -30,7 +30,7 @@ final public class ServerConnectionHandler implements Runnable {
         this.client = client;
         Thread thread = new Thread(this, "e-dziennik Connection Handler");
         try {
-            db = DriverManager.getConnection("jdbc:oracle:thin:@alekstablefield.asuscomm.com:27020:XE","edziennik","B@zka123!");
+            db = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe","kubasiek22","kubasiek2");
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -38,7 +38,7 @@ final public class ServerConnectionHandler implements Runnable {
     }
 
     /**
-     * Przesłonięta metoda typu void z interfejsu Runnable, to co znajduje się w metodzie run() będzie się wykonywało współbierznie
+     * Przeslonieta metoda typu void z interfejsu Runnable, to co znajduje sie w metodzie run() bedzie sie wykonywalo wspolbierznie
      */
     @Override
     public void run() {
@@ -67,7 +67,7 @@ final public class ServerConnectionHandler implements Runnable {
     }
 
     /**
-     * Prywatna metoda typu boolean, jeżeli logowanie przebiegło nie pomyślnie to zwraca false
+     * Prywatna metoda typu boolean, jezeli logowanie przebieglo nie pomyslnie to zwraca false
      * @param rows Parametr typu boolean
      * @return Zwraca wartości typu boolean
      */
@@ -77,7 +77,7 @@ final public class ServerConnectionHandler implements Runnable {
 
     /**
      * Prywatna metoda typu boolean, sprawdza czy zalogowany jest studentem
-     * @return Zwraca wartości typu boolean true jeżeli userDatagram.type.equals("student"); w przeciwnym przypadku zwraca false
+     * @return Zwraca wartosci typu boolean true jezeli userDatagram.type.equals("student"); w przeciwnym przypadku zwraca false
      */
     private boolean isStudent() {
         System.out.println("Czy jest to student? " + userDatagram.type.equals("student"));
@@ -85,8 +85,8 @@ final public class ServerConnectionHandler implements Runnable {
     }
 
     /**
-     * Prywatna metoda typu boolean, sprawdza czy zalogowany jest wykładowcą
-     * @return Zwraca wartości typu boolean, true jeżeli userDatagram.type.equals("root") || userDatagram.type.equals("wykladowca"); w przeciwnym przypadku zwraca false
+     * Prywatna metoda typu boolean, sprawdza czy zalogowany jest wykladowca
+     * @return Zwraca wartosci typu boolean, true jezeli userDatagram.type.equals("root") || userDatagram.type.equals("wykladowca"); w przeciwnym przypadku zwraca false
      */
     private boolean isTutor() {
         System.out.println("Czy jest to wykladowca?" + (userDatagram.type.equals("root") || userDatagram.type.equals("wykladowca")));
@@ -95,7 +95,7 @@ final public class ServerConnectionHandler implements Runnable {
 
     /**
      * Prywatna metoda typu void to getter - pozyskuje informacje o typie konta
-     * @throws SQLException Może wystąpić wyjątek typu SQLException
+     * @throws SQLException Moze wystąpic wyjatek typu SQLException
      */
     private void getAccountType() throws SQLException {
         Statement stmt;
@@ -112,8 +112,8 @@ final public class ServerConnectionHandler implements Runnable {
 
     /**
      * Prywatna metoda typu void przetwarza przedmioty i dodaje je do subjectList
-     * @throws SQLException Może wystąpić wyjątek typu SQLException
-     * @throws IOException Może wystąpić wyjątek typu IOException
+     * @throws SQLException Moze wystapic wyjatek typu SQLException
+     * @throws IOException Moze wystapic wyjatek typu IOException
      */
     private void processSubjectNames() throws SQLException, IOException {
         Statement stmt;
@@ -131,7 +131,7 @@ final public class ServerConnectionHandler implements Runnable {
 
     /**
      * Prywatna metoda typu void przetwarza grupy i dodaje je do groupList
-     * @throws SQLException Może wystąpić wyjątek typu SQLException
+     * @throws SQLException Moze wystapic wyjatek typu SQLException
      */
     private void processGroupsData() throws SQLException {
         Statement stmt;
@@ -149,10 +149,10 @@ final public class ServerConnectionHandler implements Runnable {
 
     /**
      * Prywatna metoda typu boolean sprawdza dane logowania
-     * @return Zwraca wartości typu boolean, false jeżeli !rs.next() w przeciwnym przypadku zwraca true
-     * @throws IOException Może wystąpić wyjątek typu IOException
-     * @throws ClassNotFoundException Moze wystąpić wyjątek typu ClassNotFoundException
-     * @throws SQLException Może wystąpić wyjątek typu SQLException
+     * @return Zwraca wartocci typu boolean, false jezeli !rs.next() w przeciwnym przypadku zwraca true
+     * @throws IOException Moze wystapic wyjatek typu IOException
+     * @throws ClassNotFoundException Moze wystapic wyjatek typu ClassNotFoundException
+     * @throws SQLException Moze wystapic wyjatek typu SQLException
      */
     private boolean checkLoginData() throws IOException, ClassNotFoundException, SQLException {
         input = new ObjectInputStream(client.getInputStream());
@@ -177,9 +177,9 @@ final public class ServerConnectionHandler implements Runnable {
     }
 
     /**
-     * Prywatna metoda typu void to getter który ma za zadanie pozyskać imie oraz nazwisko
+     * Prywatna metoda typu void to getter ktory ma za zadanie pozyskac imie oraz nazwisko
      * @param id_osoba Parametr typu int reprezentuje id_osoby
-     * @throws SQLException Może wystąpić wyjątek typu SQLException
+     * @throws SQLException Moze wystapic wyjatek typu SQLException
      */
     private void getNameAndSurname(int id_osoba) throws SQLException {
         Statement stmt;
@@ -195,8 +195,8 @@ final public class ServerConnectionHandler implements Runnable {
 
     /**
      * Prywatna metoda typu void przetwarza dane studenta
-     * @throws SQLException Może wystąpić wyjątek typu SQLException
-     * @throws IOException Może wystąpić wyjątek typu IOException
+     * @throws SQLException Moze wystapic wyjatek typu SQLException
+     * @throws IOException Moze wystapic wyjatek typu IOException
      */
     private void processStudentData() throws SQLException, IOException {
         Statement stmt;
@@ -239,9 +239,9 @@ final public class ServerConnectionHandler implements Runnable {
     }
 
     /**
-     * Prywatna metoda która jest getterem i ma za zadanie pozyskać przedmioty studenta
-     * @return Zwraca typ ResultSet który zawiera nazwy przedmiotów
-     * @throws SQLException Może wsytąpić wyjątek typu SQLException
+     * Prywatna metoda ktora jest getterem i ma za zadanie pozyskac przedmioty studenta
+     * @return Zwraca typ ResultSet ktory zawiera nazwy przedmiotów
+     * @throws SQLException Moze wsytapic wyjatek typu SQLException
      */
     private ResultSet getStudentSubjects() throws SQLException {
         Statement stmt;
@@ -257,8 +257,8 @@ final public class ServerConnectionHandler implements Runnable {
     }
 
     /**
-     * Prywatna metoda typu void to getter który ma za zadanie pozyskać numer albumu
-     * @throws SQLException Może wystąpić wyjątek typu SQLException
+     * Prywatna metoda typu void to getter ktory ma za zadanie pozyskac numer albumu
+     * @throws SQLException Moze wystapic wyjatek typu SQLException
      */
     private void getNrAlbumu() throws SQLException {
         Statement stmt;
