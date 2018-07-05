@@ -9,7 +9,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 /**
- * Klasa odpowiada za wyświetlanie widoku wykładowcy, implementuje interfejs Initializable
+ * Klasa odpowiada za wyswietlanie widoku wykladowcy, implementuje interfejs Initializable
  */
 final public class TutorView implements Initializable {
     @FXML
@@ -42,7 +42,7 @@ final public class TutorView implements Initializable {
     Button tutor_markSubmit;
 
     /**
-     * To przesłonięta metoda typu void z interfejsu Initializable, odpowiada za inicjalizację kontrolera
+     * To przesłonieta metoda typu void z interfejsu Initializable, odpowiada za inicjalizacje kontrolera
      * @param url Parametr typu URL przechowuje adres servera
      * @param resourceBundle Parametr typu ResourceBundle lokalizuje obiekt root
      */
