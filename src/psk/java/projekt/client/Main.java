@@ -9,7 +9,7 @@ import psk.java.projekt.server.LoginCredentials;
 import psk.java.projekt.server.UserDatagram;
 
 /**
- * Głowna klasa aplikacji
+ * Glowna klasa aplikacji
  */
 final public class Main extends Application {
     private static Stage mainWindow;
@@ -25,9 +25,9 @@ final public class Main extends Application {
     private static FXMLLoader studentViewLoader;
 
     /**
-     * Metoda typu void to główny punkt wejścia dla wszystkich aplikacji JavaFX
-     * @param primaryStage Parametr typu Stage to główna scena
-     * @throws Exception Metoda może powodować wyjątki
+     * Metoda typu void to glowny punkt wejscia dla wszystkich aplikacji JavaFX
+     * @param primaryStage Parametr typu Stage to glowna scena
+     * @throws Exception Metoda moze powodowac wyjatki
      */
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -55,7 +55,7 @@ final public class Main extends Application {
     }
 
     /**
-     * Publiczna statyczna metoda typu void odpowiada za wyświetlenie formularza logowania
+     * Publiczna statyczna metoda typu void odpowiada za wyswietlenie formularza logowania
      */
     public static void showLoginForm() {
         //mainWindow.getScene().setRoot(loginForm);
@@ -64,7 +64,7 @@ final public class Main extends Application {
     }
 
     /**
-     * Publiczna statyczna metoda typu void odpowiada za wyświetlenie widoku wykładowcy
+     * Publiczna statyczna metoda typu void odpowiada za wyswietlenie widoku wykladowcy
      */
     public static void showTutorView() {
         //mainWindow.getScene().setRoot(tutorView);
@@ -73,7 +73,7 @@ final public class Main extends Application {
     }
 
     /**
-     * Publiczna statyczna metoda typu void odpowiada za wyświetlenie widoku studenta
+     * Publiczna statyczna metoda typu void odpowiada za wyswietlenie widoku studenta
      */
     public static void showStudentView() {
         //mainWindow.getScene().setRoot(studentView);
@@ -83,7 +83,7 @@ final public class Main extends Application {
 
     /**
      * Publiczna statyczna metoda typu void odpowiada za logowanie
-     * @param credentials Parametr typu LoginCredentials przechowuje dane logowania tj. login i hasło
+     * @param credentials Parametr typu LoginCredentials przechowuje dane logowania tj. login i haslo
      */
     public static void loginProcedure(LoginCredentials credentials) {
         handler = ClientConnectionHandler.getInstance();
@@ -91,8 +91,8 @@ final public class Main extends Application {
     }
 
     /**
-     * Publiczna statyczna metoda typu void odpowiada za wyświetlenie odpowiedniego widoku dla danego typu konta
-     * @param datagram Parametr typu UserDatagram przechowuje dane które pochodzą z datagramu
+     * Publiczna statyczna metoda typu void odpowiada za wyswietlenie odpowiedniego widoku dla danego typu konta
+     * @param datagram Parametr typu UserDatagram przechowuje dane ktore pochodza z datagramu
      */
     public static void logonHandler(UserDatagram datagram) {
         if(datagram.type.equals("student")) {
@@ -104,7 +104,7 @@ final public class Main extends Application {
     }
 
     /**
-     * Publiczna statyczna metoda główna typu void wywołuje metodę launch z interfejsu Application która ma za zadanie uruchomienie aplikacji
+     * Publiczna statyczna metoda glowna typu void wywoluje metode launch z interfejsu Application ktora ma za zadanie uruchomienie aplikacji
      * @param args Parametr typu String[] to argumenty programu
      */
     public static void main(String[] args) {
