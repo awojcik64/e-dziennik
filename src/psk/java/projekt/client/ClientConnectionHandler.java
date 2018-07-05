@@ -109,4 +109,9 @@ final public class ClientConnectionHandler{
             }
         }
     }
+    public Object getDataFromServer(UserDatagram datagram) throws IOException, ClassNotFoundException
+    {
+        output.writeObject(datagram);
+        return input.readObject();
+    }
 }

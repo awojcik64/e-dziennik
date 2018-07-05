@@ -1,5 +1,7 @@
 package psk.java.projekt.server;
 
+import javafx.beans.property.StringProperty;
+
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -57,8 +59,7 @@ final public class ServerConnectionHandler implements Runnable {
                     processGroupsData();
                     processSubjectNames();
                     output.writeObject(userDatagram);
-
-                    //TODO: Zrobić listener na polecenia typu dodaj ocenę
+                    while(true) tutorActionListener();
                 } else if (isStudent()) {
                     processStudentData();
                 }
@@ -81,6 +82,7 @@ final public class ServerConnectionHandler implements Runnable {
                 getSubjectIdByName();
                 getGroupsBySubject();
                 output.writeObject(userDatagram);
+                output.flush();
 
             } else if (userDatagram.command.equals("getStudentsByGroup")) {
                 getNrGrupyByName();
@@ -99,10 +101,74 @@ final public class ServerConnectionHandler implements Runnable {
                     userDatagram.tutorStudentsList.add(new TutorStudentsTableRow(rs.getString(1), rs.getString(2)));
                 }
                 output.writeObject(userDatagram);
+                output.flush();
+            }
+            else if(userDatagram.command.equals("getMarksByStudent"))
+            {
+                getNrAlbumuByPersonalData();
+                userDatagram.markList=new ArrayList<>();
+                String sqlGetMarksByStudentAndSubject="SELECT ocena FROM oceny\n" +
+                        "WHERE oceny.id_przedmiotu="+userDatagram.idPrzedmiotu+" AND nr_albumu="+userDatagram.studentNrAlbumu;
+                rs=db.createStatement().executeQuery(sqlGetMarksByStudentAndSubject);
+                if(rs.next())
+                {
+                    userDatagram.markList.add(new Double(rs.getDouble(1)).toString());
+                }
+                output.writeObject(userDatagram);
+                output.flush();
+            }
+            else if(userDatagram.command.equals("addMark"))
+            {
+                int howManyRows;
+                String sqlGetRowNumber="SELECT COUNT(*) FROM oceny";
+                rs=db.createStatement().executeQuery(sqlGetRowNumber);
+                if(rs.next())
+                {
+                    howManyRows=rs.getInt(1)+1;
+                }
+                else howManyRows=0;
+                getNrAlbumuByPersonalData();
+                String insertString="INSERT INTO oceny VALUES("+howManyRows+","+userDatagram.addedMark+","+userDatagram.idPrzedmiotu+","+userDatagram.studentNrAlbumu+")";
+                Statement update=db.createStatement();
+                try {
+                    update.executeUpdate(insertString);
+                    output.writeObject("insertSuccess");
+                }
+                catch(Exception e)
+                {
+                    output.writeObject("insertFailed");
+                    e.printStackTrace();
+                }
+
+            }
+        }
+        else if(command instanceof String)
+        {
+            String cmd = (String)command;
+            if(cmd.equals("logout"))
+            {
+                client.close();
+                try {
+                    Thread.currentThread().join();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             }
         }
     }
-
+    private void getNrAlbumuByPersonalData() throws SQLException
+    {
+        String sqlGetNrAlbumuByPersonalData="SELECT studenci.nr_albumu FROM studenci" +
+                " JOIN osoby ON osoby.id_osoby=studenci.id_osoby" +
+                " WHERE osoby.imie=\'"+userDatagram.studentImie+"\' AND osoby.nazwisko=\'"+userDatagram.studentNazwisko+"\'";
+        ResultSet rs=db.createStatement().executeQuery(sqlGetNrAlbumuByPersonalData);
+        if(rs.next())
+        {
+            userDatagram.studentNrAlbumu=rs.getInt(1);
+        }
+        System.out.println("Otrzymany studentNrAlbumu: "+userDatagram.studentNrAlbumu);
+        //System.out.println("Wersja od rs: "+rs.getInt(1));
+    }
     private void getNrGrupyByName() throws SQLException {
         Statement stmt;
         ResultSet rs;
@@ -118,12 +184,12 @@ final public class ServerConnectionHandler implements Runnable {
         Statement stmt;
         ResultSet rs;
         stmt = db.createStatement();
-        String sqlGetGroupsBySubject = "SELECT grupy.nazwa FROM grupy" +
+        String sqlGetGroupsBySubject = "SELECT DISTINCT grupy.nazwa FROM grupy" +
                 " JOIN grupa_zajeciowa ON grupa_zajeciowa.nr_grupy=grupy.nr_grupy" +
                 " WHERE grupa_zajeciowa.id_przedmiotu=" + userDatagram.idPrzedmiotu + " AND grupa_zajeciowa.id_wykladowcy=" + userDatagram.tutorID;
         rs = stmt.executeQuery(sqlGetGroupsBySubject);
         while (rs.next()) {
-            userDatagram.subjectList.add(rs.getString(1));
+            userDatagram.groupList.add(rs.getString(1));
         }
     }
 

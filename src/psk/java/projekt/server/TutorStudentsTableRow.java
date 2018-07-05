@@ -3,37 +3,39 @@ package psk.java.projekt.server;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
-public class TutorStudentsTableRow
+import java.io.Serializable;
+
+public class TutorStudentsTableRow implements Serializable
 {
-    private StringProperty name;
-    private StringProperty surname;
+    private String name;
+    private String surname;
 
     public String getName() {
-        return name.get();
-    }
-
-    public StringProperty nameProperty() {
         return name;
     }
 
+    public StringProperty nameProperty() {
+        return new SimpleStringProperty(name);
+    }
+
     public void setName(String name) {
-        this.name.set(name);
+        this.name=name;
     }
 
     public String getSurname() {
-        return surname.get();
-    }
-
-    public StringProperty surnameProperty() {
         return surname;
     }
 
+    public StringProperty surnameProperty() {
+        return new SimpleStringProperty(surname);
+    }
+
     public void setSurname(String surname) {
-        this.surname.set(surname);
+        this.surname=surname;
     }
 
     public TutorStudentsTableRow(String name, String surname) {
-        this.name = new SimpleStringProperty(name);
-        this.surname = new SimpleStringProperty(surname);
+        this.name = name;
+        this.surname = surname;
     }
 }
