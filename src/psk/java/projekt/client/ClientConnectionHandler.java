@@ -12,7 +12,7 @@ import java.net.Socket;
 import java.net.SocketTimeoutException;
 
 /**
- * Klasa odpowiada za połączenie Klienta
+ * Klasa odpowiada za polaczenie Klienta
  */
 final public class ClientConnectionHandler{
     private ObjectOutputStream output;
