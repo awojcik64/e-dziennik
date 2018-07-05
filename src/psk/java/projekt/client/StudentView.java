@@ -20,7 +20,7 @@ import java.util.Observable;
 import java.util.ResourceBundle;
 
 /**
- * Klasa odpowiada za widok który widzi student, implementuje interfejs Initializable
+ * Klasa odpowiada za widok ktory widzi student, implementuje interfejs Initializable
  */
 final public class StudentView implements Initializable {
     @FXML
@@ -48,7 +48,7 @@ final public class StudentView implements Initializable {
     }
 
     /**
-     * Przesłonięta metoda typu void z interfejsu Initializable, odpowiada za inicjalizację kontrolera
+     * Przesłonieta metoda typu void z interfejsu Initializable, odpowiada za inicjalizacje kontrolera
      * @param url Parametr typu URL przechowuje adres servera
      * @param resourceBundle Parametr typu ResourceBundle lokalizuje obiekt root
      */
@@ -72,8 +72,8 @@ final public class StudentView implements Initializable {
     }
 
     /**
-     * Publiczna metoda typu void odpowiada za wyświetlanie danych
-     * @param argDatagram Parametr typu UserDatagram przechowuje dane z datagramu które mają być wyświetlone
+     * Publiczna metoda typu void odpowiada za wyswietlanie danych
+     * @param argDatagram Parametr typu UserDatagram przechowuje dane z datagramu ktore maja byc wyswietlone
      */
     public void showData(UserDatagram argDatagram) {
         String przedmiotNazwa;
@@ -101,36 +101,36 @@ final public class StudentView implements Initializable {
 }
 
 /**
- * Klasa odpowiada za wyświetlanie tabeli
+ * Klasa odpowiada za wyswietlanie tabeli
  */
 final class StudentTableRow {
     /**
-     * Publiczna metoda to getter ma za zadanie pobrać informacje o przedmiotach
-     * @return Zwraca typ String - dokładnie przedmiot
+     * Publiczna metoda to getter ma za zadanie pobrac informacje o przedmiotach
+     * @return Zwraca typ String - dokladnie przedmiot
      */
     public String getSubject() {
         return subject.get();
     }
 
     /**
-     * Publiczna metoda typu void to setter która ma za zadanie przypisać przedmiot do pola subject klasy StudentTableRow
-     * @param subject Parametr typu String
+     * Publiczna metoda typu void to setter ktora ma za zadanie przypisac przedmiot do pola subject klasy StudentTableRow
+     * @param subject Parametr typu String - dokladnie przedmiot
      */
     public void setSubject(String subject) {
         this.subject = new SimpleStringProperty(subject);
     }
 
     /**
-     * Publiczna metoda to getter ma za zadanie pobrać informacje o ocenach
-     * @return Zwraca typ String - dokładnie ocenę
+     * Publiczna metoda to getter ma za zadanie pobrac informacje o ocenach
+     * @return Zwraca typ String - dokladnie ocenę
      */
     public String getMarks() {
         return marks.get();
     }
 
     /**
-     * Publiczna metoda odpowiada za właściwości ocen
-     * @return Zwraca typ StringProperty - dokłdnie ocenę
+     * Publiczna metoda odpowiada za wlasciwosci ocen
+     * @return Zwraca typ StringProperty - dokldnie ocene
      */
     public StringProperty marksProperty()
     {
@@ -138,8 +138,8 @@ final class StudentTableRow {
     }
 
     /**
-     * Publiczna metoda odpowiada za właściwości przedmiotów
-     * @return Zwraca typ StringProperty - dokładnie przedmiot
+     * Publiczna metoda odpowiada za wlasciwosci przedmiotow
+     * @return Zwraca typ StringProperty - dokladnie przedmiot
      */
     public StringProperty subjectProperty()
     {
@@ -147,7 +147,7 @@ final class StudentTableRow {
     }
 
     /**
-     * Publiczna metoda typu void to setter który ma za zadanie przypisać ocenę do pola marks klasy StudentTableRow
+     * Publiczna metoda typu void to setter ktory ma za zadanie przypisac ocene do pola marks klasy StudentTableRow
      * @param marks Parametr typu String - jest to ocena
      */
     public void setMarks(String marks) {
