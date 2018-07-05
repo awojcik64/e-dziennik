@@ -48,12 +48,10 @@ final public class TutorView implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        tutor_selectSubject.setOnAction(event->
-        {
+        tutor_selectSubject.setOnAction(event -> {
             //TODO: Ustawienie listy grup do danego przedmiotu
         });
-        tutor_selectGroup.setOnScrollTo(event->
-        {
+        tutor_selectGroup.setOnScrollTo(event -> {
             //TODO:Aktualizacja tabeli studentow przy wyborze grupy.
         });
         tutor_logout.setOnAction(actionEvent -> {
