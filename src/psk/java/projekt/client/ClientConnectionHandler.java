@@ -73,7 +73,7 @@ final public class ClientConnectionHandler{
     }
 
     /**
-     * Metoda typu void sygnalizuje nieznany błąd
+     * Metoda typu void sygnalizuje nieznany blad
      */
     public static void unknownErrorAlert() {
         Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -84,8 +84,8 @@ final public class ClientConnectionHandler{
     }
 
     /**
-     * Publiczna statyczna metoda to typowy getter ma pozyskać instancję obiektu
-     * @return Zwraca instancję obiektu klasy ClientConnectionHandler jezeli nie istnieje
+     * Publiczna statyczna metoda to typowy getter ma pozyskac instancje obiektu
+     * @return Zwraca instancje obiektu klasy ClientConnectionHandler jezeli nie istnieje
      */
     static public ClientConnectionHandler getInstance() {
         if(instance == null) {
