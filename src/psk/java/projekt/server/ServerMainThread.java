@@ -6,7 +6,7 @@ import java.net.Socket;
 import java.util.ArrayList;
 
 /**
- * Klasa głównego wątku serwera, implementuje interfejs Runnable
+ * Klasa glownego watku serwera, implementuje interfejs Runnable
  */
 public class ServerMainThread implements Runnable {
     private boolean status=false;
@@ -14,8 +14,8 @@ public class ServerMainThread implements Runnable {
     private ArrayList<ServerConnectionHandler> openedThreads;
 
     /**
-     * Publiczna metoda typu void która ma za zadanie zamknąć gniazdo
-     * @throws IOException Może wystąpić wyjątek typu IOException
+     * Publiczna metoda typu void ktora ma za zadanie zamknąc gniazdo
+     * @throws IOException Moze wystapic wyjatek typu IOException
      */
     public void close() throws IOException {
         status = false;
@@ -27,7 +27,7 @@ public class ServerMainThread implements Runnable {
     }
 
     /**
-     * Publiczna metoda typu void jest przesłoniętą metodą z interfejsu Runnable, znajduje się w niej to co będzie wykonywane współbierzni
+     * Publiczna metoda typu void jest przeslonieta metoda z interfejsu Runnable, znajduje sie w niej to co bedzie wykonywane wspolbierznie
      */
     @Override
     public void run() {
