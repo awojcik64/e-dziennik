@@ -27,8 +27,7 @@ final public class LoginForm implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        login_submit.setOnAction(event->
-        {
+        login_submit.setOnAction(event -> {
             Main.loginProcedure(new LoginCredentials(login_username.getText(),login_passwd.getText()));
             System.out.println();
         });
