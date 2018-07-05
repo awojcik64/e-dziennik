@@ -11,11 +11,18 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.net.SocketTimeoutException;
 
+/**
+ * Klasa odpowiada za połączenie Klienta
+ */
 final public class ClientConnectionHandler{
     private ObjectOutputStream output;
     private ObjectInputStream input;
     private static Socket server;
     private static ClientConnectionHandler instance;
+
+    /**
+     * Metoda odpowiadająca za utworzenie połączenia za pomocą Socketów
+     */
     private ClientConnectionHandler(){
         try{
             server=new Socket("localhost",27027);
@@ -28,6 +35,11 @@ final public class ClientConnectionHandler{
         }
 
     }
+
+    /**
+     * Metoda odpowiada za logowanie klienta
+     * @param credentials Parametr przechowuje login oraz hasło
+     */
     void login(LoginCredentials credentials)
     {
         try {
@@ -74,6 +86,10 @@ final public class ClientConnectionHandler{
             e.printStackTrace();
         }
     }
+
+    /**
+     * Metoda sygnalizuje nieznany błąd
+     */
     public static void unknownErrorAlert()
     {
         Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -82,6 +98,11 @@ final public class ClientConnectionHandler{
         alert.showAndWait();
         Platform.exit();
     }
+
+    /**
+     * Metoda to typowy getter ma pozyskać instancję obiektu
+     * @return Zwraca instancję obiektu klasy ClientConnectionHandler jezeli nie istnieje
+     */
     static public ClientConnectionHandler getInstance()
     {
         if(instance==null)
@@ -95,6 +116,10 @@ final public class ClientConnectionHandler{
         }
 
     }
+
+    /**
+     * Metoda odpowiada za wylogowanie klienta
+     */
     public void logout()
     {
         if(server.isConnected())
