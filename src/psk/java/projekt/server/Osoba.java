@@ -1,7 +1,7 @@
 package psk.java.projekt.server;
 
 /**
- * Klasa która przechowuje informacje o osobie
+ * Klasa ktora przechowuje informacje o osobie
  */
 public class Osoba {
     String imie;
